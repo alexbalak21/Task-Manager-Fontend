@@ -23,13 +23,13 @@ export default function Donut({ title, slices }: Props) {
   const gradient = `conic-gradient(${segments.join(",")})`;
 
   return (
-    <div className="h-full rounded-lg bg-white p-4 shadow dark:bg-gray-900 flex flex-col">
-      <h2 className="mb-8 text-2xl text-center font-semibold text-gray-800 dark:text-gray-200">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-lg bg-white p-4 shadow dark:bg-gray-900 sm:p-6">
+      <h2 className="mb-6 text-center text-xl font-semibold text-gray-800 dark:text-gray-200 sm:text-2xl">
         {title}
       </h2>
 
-      <div className="flex-1 min-h-0 grid place-items-center">
-        <div className="relative inline-block h-full max-h-full aspect-square max-w-full">
+      <div className="grid flex-1 min-h-55 min-w-0 place-items-center">
+        <div className="relative aspect-square w-full max-w-88" style={{ maxHeight: "100%" }}>
           <div
             className="absolute inset-0 rounded-full"
             style={{ background: gradient }}
@@ -42,7 +42,7 @@ export default function Donut({ title, slices }: Props) {
       </div>
 
       {/* UPDATED LEGEND */}
-      <div className="mt-4 flex flex-wrap justify-center gap-3">
+      <div className="mt-4 flex flex-wrap justify-center gap-x-3 gap-y-2">
         {slices.map(s => (
           <div key={s.label} className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-sm" style={{ background: s.color }} />
