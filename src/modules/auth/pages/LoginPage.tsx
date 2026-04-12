@@ -40,17 +40,14 @@ export default function LoginPage() {
         <p className="text-3xl font-semibold tracking-tight text-[#141414]">Task Manager</p>
 
         <div className="flex flex-1 items-center">
-          <div className="w-full max-w-[620px]">
-            <h1 className="text-5xl font-semibold tracking-tight text-[#191919]">Welcome Back</h1>
-            <p className="mt-4 text-xl leading-tight text-[#333333]">
+          <div className="mx-auto w-full max-w-[620px]">
+            <h1 className="text-center text-5xl font-semibold tracking-tight text-[#191919]">Welcome Back</h1>
+            <p className="mt-4 text-center text-xl leading-tight text-[#333333]">
               Please enter your details to log in
             </p>
 
             <form onSubmit={onSubmit} className="mt-10 grid gap-5">
                 <div>
-                <label htmlFor="email" className="mb-2 block text-xl font-medium text-[#2f2f2f]">
-                  Email
-                </label>
               <Input
                 id="email"
                 type="email"
@@ -60,13 +57,11 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
+                label="Email"
               />
               </div>
 
               <div>
-                <label htmlFor="password" className="mb-2 block text-xl font-medium text-[#2f2f2f]">
-                  Password
-                </label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -78,6 +73,7 @@ export default function LoginPage() {
                     required
                     minLength={8}
                     className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] pr-12 text-lg"
+                    label="Password"
                   />
                   <button
                     type="button"
