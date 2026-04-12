@@ -37,20 +37,23 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-[#f3f3f5] lg:grid lg:grid-cols-[58%_42%]">
       <section className="flex min-h-screen flex-col px-6 py-8 sm:px-10 lg:px-14 lg:py-10">
-        <p className="text-2xl font-semibold tracking-tight text-[#141414]">Task Manager</p>
+        <p className="text-3xl font-semibold tracking-tight text-[#141414]">Task Manager</p>
 
         <div className="flex flex-1 items-center">
           <div className="w-full max-w-[620px]">
-            <h1 className="text-5xl font-semibold tracking-tight text-[#191919] sm:text-[3.45rem]">Welcome Back</h1>
-            <p className="mt-2 text-[1.75rem] leading-tight text-[#333333] sm:text-[2rem]">
+            <h1 className="text-5xl font-semibold tracking-tight text-[#191919]">Welcome Back</h1>
+            <p className="mt-4 text-xl leading-tight text-[#333333]">
               Please enter your details to log in
             </p>
 
             <form onSubmit={onSubmit} className="mt-10 grid gap-5">
+                <div>
+                <label htmlFor="email" className="mb-2 block text-xl font-medium text-[#2f2f2f]">
+                  Email
+                </label>
               <Input
                 id="email"
                 type="email"
-                label="Email Address"
                 placeholder="john@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -58,9 +61,10 @@ export default function LoginPage() {
                 required
                 className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
               />
+              </div>
 
               <div>
-                <label htmlFor="password" className="mb-2 block text-[1.35rem] font-medium text-[#2f2f2f]">
+                <label htmlFor="password" className="mb-2 block text-xl font-medium text-[#2f2f2f]">
                   Password
                 </label>
                 <div className="relative">
@@ -119,7 +123,7 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <p className="mt-5 text-[1.6rem] text-[#303030]">
+            <p className="mt-5 text-xl text-[#303030]">
               Don&apos;t have an account?{" "}
               <Link to="/signup" className="font-semibold text-[#2767e7] underline-offset-2 hover:underline">
                 SignUp
