@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import type { ReactNode } from "react";
 import TasksPage from "../modules/Tasks/pages/TasksPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
+import SigninPage from "../modules/auth/pages/Signin";
 import { useAuthStore } from "../modules/auth/state/auth.store";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -32,6 +33,7 @@ export function AppRoutes() {
           }
         />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SigninPage />} />
         <Route path="*" element={<Navigate to="/tasks" replace />} />
       </Routes>
     </BrowserRouter>
