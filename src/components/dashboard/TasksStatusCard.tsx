@@ -89,19 +89,28 @@ export default function TasksStatusCard({
 		count: countsByStatus[key],
 	}));
 
+	const totalTasks = Object.values(countsByStatus).reduce((sum, value) => sum + value, 0);
+
 	return (
-		<section className="w-full rounded-3xl border border-zinc-100 bg-white p-8 shadow-[0_2px_8px_rgba(15,23,42,0.03)] lg:p-10">
+		<section className="w-full rounded-3xl border border-zinc-100 bg-white p-8 shadow-base lg:p-10">
 			<h2 className="text-4xl font-semibold leading-tight tracking-tight text-black">
 				{getTimeGreeting()}! {userName}
 			</h2>
 			<p className="mt-2 text-2xl text-gray-500">{dateLabel}</p>
 
-			<div className="mt-9 grid gap-6 sm:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+			<div className="mt-9 grid gap-6 sm:grid-cols-2 xl:grid-cols-5 xl:gap-10">
+				<div className="flex items-center gap-3">
+					<span className={`${statusPillClass} bg-gray-500`} />
+					<p className="text-2xl leading-none text-gray-600">
+						<span className="font-semibold text-gray-800">{totalTasks}</span> Total Tasks
+					</p>
+				</div>
+
 				{statusItems.map((status) => (
 					<div key={status.label} className="flex items-center gap-3">
 						<span className={`${statusPillClass} ${status.colorClass}`} />
-						<p className="text-2xl leading-none text-[#494949]">
-							<span className="font-semibold text-[#101010]">{status.count}</span> {status.label}
+						<p className="text-2xl leading-none text-gray-600">
+							<span className="font-semibold text-gray-800">{status.count}</span> {status.label}
 						</p>
 					</div>
 				))}
