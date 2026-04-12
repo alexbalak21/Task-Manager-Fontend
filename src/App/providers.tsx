@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { useAuthStore } from "../modules/auth/state/auth.store";
+import { useTheme } from "../hooks/useTheme";
 
 type AppProvidersProps = {
 	children: ReactNode;
@@ -7,6 +8,7 @@ type AppProvidersProps = {
 
 export function AppProviders({ children }: AppProvidersProps) {
 	const hydrate = useAuthStore((state) => state.hydrate);
+	useTheme();
 
 	useEffect(() => {
 		hydrate();

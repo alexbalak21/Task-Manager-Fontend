@@ -1,1 +1,42 @@
 @import "tailwindcss";
+
+:root {
+	--color-primary-50: #eff6ff;
+	--color-primary-500: #2563eb;
+	--color-primary-600: #1d4ed8;
+	--color-primary-900: #1e3a8a;
+
+	color-scheme: light;
+}
+
+html.dark {
+	color-scheme: dark;
+}
+
+.bg-primary-500 {
+	background-color: var(--color-primary-500);
+}
+
+.text-primary-500 {
+	color: var(--color-primary-500);
+}
+
+.border-primary-500 {
+	border-color: var(--color-primary-500);
+}
+
+.focus\:ring-primary-500:focus {
+	--tw-ring-color: var(--color-primary-500);
+}
+
+.hover\:bg-primary-50:hover {
+	background-color: var(--color-primary-50);
+}
+
+.hover\:bg-primary-600:hover {
+	background-color: var(--color-primary-600);
+}
+
+.dark .dark\:hover\:bg-primary-900\/20:hover {
+	background-color: color-mix(in srgb, var(--color-primary-900) 20%, transparent);
+}
