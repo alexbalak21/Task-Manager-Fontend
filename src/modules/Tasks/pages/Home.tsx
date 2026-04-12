@@ -1,7 +1,7 @@
-import { Link } from "react-router";
 import AppShellLayout from "../../../layouts/AppShellLayout";
 import { useAuthStore } from "../../auth/state/auth.store";
 import TasksStatusCard from "../../../components/dashboard/TasksStatusCard";
+import Donut from "../../../components/charts/Dount";
 
 export default function HomePage() {
   const user = useAuthStore((state) => state.user);
@@ -11,12 +11,13 @@ export default function HomePage() {
       <section className="p-8 lg:p-10">
         <TasksStatusCard userName={user?.name ?? "Admin"} />
 
-        <div className="mt-6 rounded-xl border border-[#e6e8ee] bg-white p-6">
-          <p className="text-gray-700">Main content area</p>
-          <Link to="/tasks" className="mt-4 inline-flex text-sm font-semibold text-[#2767e7] hover:underline">
-            Go to Tasks
-          </Link>
-        </div>
+<Donut title="Task Distribution" slices={[
+          { label: "Pending", value: 10, color: "#f59e0b" },
+          { label: "In Progress", value: 15, color: "#3b82f6" },
+          { label: "Completed", value: 20, color: "#10b981" },
+          { label: "On Hold", value: 5, color: "#8b5cf6" },
+          { label: "Cancelled", value: 2, color: "#ef4444" }
+        ]} />
       </section>
     </AppShellLayout>
   );

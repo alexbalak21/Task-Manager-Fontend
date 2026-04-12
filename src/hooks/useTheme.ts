@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export type Theme = "light" | "dark" | "system";
 const VALID_THEMES: Theme[] = ["light", "dark", "system"];
+const FORCE_LIGHT_MODE = true;
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>("light");
@@ -9,14 +10,11 @@ export function useTheme() {
   // Apply theme to <html>
   const applyTheme = (t: Theme) => {
     if (t === "light") {
-      console.log('🌙 applyTheme: Applying light mode')
       document.documentElement.classList.remove("dark");
     } else if (t === "dark") {
-      console.log('🌙 applyTheme: Applying dark mode')
       document.documentElement.classList.add("dark");
     } else {
       const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      console.log('🌙 applyTheme: System mode - OS prefers:', isDark ? 'dark' : 'light')
       if (isDark) {
         document.documentElement.classList.add("dark");
       } else {
@@ -31,11 +29,11 @@ export function useTheme() {
     const saved = VALID_THEMES.includes(savedValue as Theme)
       ? (savedValue as Theme)
       : null;
-    const initial = saved || "light";
-    console.log('🌙 useTheme initialized:')
-    console.log('  - Saved in localStorage (themeMode):', saved)
-    console.log('  - Using mode:', initial)
+    const initial = FORCE_LIGHT_MODE ? "light" : (saved || "light");
     setTheme(initial);
+    if (FORCE_LIGHT_MODE) {
+      localStorage.setItem("themeMode", "light");
+    }
     applyTheme(initial);
   }, []);
 
@@ -52,11 +50,8 @@ export function useTheme() {
 
   // Public setter
   const changeTheme = (t: Theme) => {
-    console.log('🌙 changeTheme called:')
-    console.log('  - New mode:', t)
     setTheme(t);
     localStorage.setItem("themeMode", t);
-    console.log('  - Saved to localStorage: themeMode =', t)
     applyTheme(t);
   };
 
