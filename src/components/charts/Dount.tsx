@@ -23,19 +23,19 @@ export default function Donut({ title, slices }: Props) {
   const gradient = `conic-gradient(${segments.join(",")})`;
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-900">
+    <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-900 min-h-[420px]">
       <h2 className="mb-8 text-2xl text-center font-semibold text-gray-800 dark:text-gray-200">
         {title}
       </h2>
 
-      <div className="relative w-60 h-60 mx-auto">
+      <div className="relative mx-auto h-72 w-72">
         <div
           className="absolute inset-0 rounded-full"
           style={{ background: gradient }}
         />
         <div
           className="absolute inset-0 m-auto rounded-full bg-white dark:bg-gray-900"
-          style={{ width: "60%", height: "60%" }}
+          style={{ width: "74%", height: "74%" }}
         />
       </div>
 
