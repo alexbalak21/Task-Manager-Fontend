@@ -19,7 +19,7 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (accessToken) {
-    return <Navigate to="/tasks" replace />;
+    return <Navigate to="/home" replace />;
   }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -28,7 +28,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await login(email, password);
-      navigate("/tasks", { replace: true });
+      navigate("/home", { replace: true });
     } catch {
       setError("Login failed. Check your credentials.");
     } finally {

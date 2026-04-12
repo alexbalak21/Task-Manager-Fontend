@@ -9,6 +9,7 @@ import { useAuthStore } from "../state/auth.store";
 
 export default function SigninPage() {
 	const navigate = useNavigate();
+	const register = useAuthStore((state) => state.register);
 	const accessToken = useAuthStore((state) => state.accessToken);
 
 	const [fullName, setFullName] = useState("");
@@ -16,18 +17,26 @@ export default function SigninPage() {
 	const [password, setPassword] = useState("");
 	const [adminToken, setAdminToken] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	if (accessToken) {
-		return <Navigate to="/tasks" replace />;
+		return <Navigate to="/home" replace />;
 	}
 
 	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		setError(null);
 		setIsSubmitting(true);
 
-		// Registration API is not integrated yet.
-		navigate("/login", { replace: true });
+		try {
+			await register(fullName, email, password);
+			navigate("/home", { replace: true });
+		} catch {
+			setError("Registration failed. Please check your details and try again.");
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -42,7 +51,7 @@ export default function SigninPage() {
 							Join us today by entering your details below.
 						</p>
 
-						<div className="mt-8 flex justify-center">
+						{/* <div className="mt-8 flex justify-center">
 							<div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-[#e9eef9] text-[#2f6de5]">
 								<svg viewBox="0 0 24 24" fill="none" className="h-10 w-10" aria-hidden="true">
 									<circle cx="12" cy="8" r="3" stroke="currentColor" strokeWidth="1.75" />
@@ -54,9 +63,9 @@ export default function SigninPage() {
 									</svg>
 								</span>
 							</div>
-						</div>
+						</div> */}
 
-						<form onSubmit={onSubmit} className="mt-8 grid gap-5 md:grid-cols-2">
+						<form onSubmit={onSubmit} className="mt-9 grid gap-5 md:grid-cols-2">
 							<Input
 								id="fullName"
 								type="text"
@@ -117,7 +126,7 @@ export default function SigninPage() {
 								className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
 								label="Admin Invite Token"
 							/>
-
+						{error ? <p className="text-sm text-red-600 md:col-span-2">{error}</p> : null}
 							<div className="md:col-span-2">
 								<Button
 									type="submit"
