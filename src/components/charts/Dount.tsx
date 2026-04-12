@@ -24,7 +24,7 @@ export default function Donut({ title, slices }: Props) {
 
   return (
     <div className="rounded-lg bg-white p-4 shadow dark:bg-gray-900">
-      <h2 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
+      <h2 className="mb-8 text-2xl text-center font-semibold text-gray-800 dark:text-gray-200">
         {title}
       </h2>
 

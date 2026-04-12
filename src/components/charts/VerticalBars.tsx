@@ -17,7 +17,7 @@ export default function VerticalBars({ title, bars }: Props) {
 
   return (
     <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-      <h2 className="mb-15 text-xl font-bold text-slate-900">{title}</h2>
+      <h2 className="mb-15 text-2xl text-center font-bold text-slate-900">{title}</h2>
 
       <div className="grid grid-cols-[44px_1fr] gap-4">
         <div className="relative h-72">
