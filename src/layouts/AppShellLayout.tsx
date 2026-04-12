@@ -8,7 +8,7 @@ type AppShellLayoutProps = {
 
 export default function AppShellLayout({ children }: AppShellLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#f3f3f5]">
+    <div className="min-h-screen bg-neutral-50">
       <TopBar />
       <div className="flex h-[calc(100vh-86px)]">
         <Sidebar />

@@ -58,7 +58,7 @@ const items: SidebarItem[] = [
 
 export default function Sidebar() {
 	return (
-		<aside className="flex h-full w-[340px] flex-col border-r border-[#e6e8ee] bg-[#f3f3f5]">
+		<aside className="flex h-full w-[340px] flex-col border-r-2 border-zinc-100 bg-white">
 			<div className="border-b border-[#eceef3] px-6 pb-8 pt-12 text-center">
 				<img
 					src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=160&q=80"
