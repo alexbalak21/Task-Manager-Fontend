@@ -28,7 +28,6 @@ export default function HomePage() {
               { label: "Low", value: 5, color: "#10B26C" },
               { label: "Medium", value: 6, color: "#F28B00" },
               { label: "High", value: 7, color: "#FF0F57" },
-              { label: "Critical", value: 3, color: "#FF0000" },
             ]}
           />
         </div>
