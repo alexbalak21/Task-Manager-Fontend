@@ -1,0 +1,40 @@
+interface Bar {
+  label: string;
+  value: number;
+}
+
+interface Props {
+  title: string;
+  bars: Bar[];
+}
+
+export default function Bars({ title, bars }: Props) {
+  const max = Math.max(...bars.map(b => b.value), 1);
+
+  return (
+      <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow px-6 h-full flex flex-col">
+      <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
+        {title}
+      </h2>
+
+        <div className="flex-1 flex flex-col space-y-5 justify-center">
+          {bars.map(b => (
+          <div key={b.label}>
+            <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
+              <span>{b.label}</span>
+              <span>{b.value}</span>
+            </div>
+            
+            <div className="w-full bg-gray-200 dark:bg-gray-700 h-3 rounded">
+              <div
+                className="h-3 rounded bg-indigo-500"
+                style={{ width: `${(b.value / max) * 100}%` }}
+              />
+            </div>
+          </div>
+        ))}
+        
+      </div>
+    </div>
+  );
+}

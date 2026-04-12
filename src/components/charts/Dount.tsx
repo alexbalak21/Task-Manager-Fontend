@@ -28,7 +28,7 @@ export default function Donut({ title, slices }: Props) {
         {title}
       </h2>
 
-      <div className="relative w-40 h-40 mx-auto">
+      <div className="relative w-60 h-60 mx-auto">
         <div
           className="absolute inset-0 rounded-full"
           style={{ background: gradient }}
