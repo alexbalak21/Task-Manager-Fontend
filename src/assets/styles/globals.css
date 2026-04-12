@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+html,
+body,
+#root {
+	font-family: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
 
 :root {
 	--color-primary-50: #eff6ff;
