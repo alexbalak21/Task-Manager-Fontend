@@ -9,7 +9,7 @@ export default function HomePage() {
   return (
     <AppShellLayout>
       <section className="p-8 lg:p-10">
-        <TasksStatusCard />
+        <TasksStatusCard userName={user?.name ?? "Admin"} />
 
         <div className="mt-6 rounded-xl border border-[#e6e8ee] bg-white p-6">
           <p className="text-gray-700">Main content area</p>
