@@ -3,6 +3,8 @@ import { Link, Navigate, useNavigate } from "react-router";
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import loginSidePanel from "../../../assets/images/login_side_panel.jpg";
+import Eye from "../../../assets/icons/Eye";
+import EyeCorssed from "../../../assets/icons/Eye_corssed";
 import { useAuthStore } from "../state/auth.store";
 
 export default function LoginPage() {
@@ -62,6 +64,9 @@ export default function LoginPage() {
               </div>
 
               <div>
+                <label htmlFor="password" className="mb-2 block text-xl font-medium text-gray-700">
+                  Password
+                </label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -73,7 +78,6 @@ export default function LoginPage() {
                     required
                     minLength={8}
                     className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] pr-12 text-lg"
-                    label="Password"
                   />
                   <button
                     type="button"
@@ -81,28 +85,7 @@ export default function LoginPage() {
                     onClick={() => setShowPassword((prev) => !prev)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600"
                   >
-                    {showPassword ? (
-                      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-                        <path
-                          d="M3 3l18 18M10.58 10.58a2 2 0 102.83 2.83M9.88 5.09A10.94 10.94 0 0112 5c5.05 0 9.27 3.11 10.5 7.5a10.96 10.96 0 01-4.08 5.68M6.61 6.61A10.95 10.95 0 001.5 12.5a11.03 11.03 0 003.83 5.29"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    ) : (
-                      <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
-                        <path
-                          d="M1.5 12.5C2.73 8.11 6.95 5 12 5s9.27 3.11 10.5 7.5c-1.23 4.39-5.45 7.5-10.5 7.5S2.73 16.89 1.5 12.5z"
-                          stroke="currentColor"
-                          strokeWidth="1.75"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <circle cx="12" cy="12.5" r="3" stroke="currentColor" strokeWidth="1.75" />
-                      </svg>
-                    )}
+                    {showPassword ? <EyeCorssed className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
                   </button>
                 </div>
               </div>
