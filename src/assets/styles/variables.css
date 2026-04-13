@@ -1,5 +1,6 @@
 
-@theme {
+
+:root {
 	--color-primary-50: #eff6ff;
 	--color-primary-100: #dbeafe;
 	--color-primary-200: #bfdbfe;
@@ -18,8 +19,16 @@
 	background-color: var(--color-primary-500);
 }
 
+.bg-primary-400 {
+	background-color: var(--color-primary-400);
+}
+
 .text-primary-500 {
 	color: var(--color-primary-500);
+}
+
+.text-primary-400 {
+	color: var(--color-primary-400);
 }
 
 .border-primary-500 {

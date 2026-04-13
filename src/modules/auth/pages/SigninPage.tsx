@@ -61,7 +61,7 @@ export default function SigninPage() {
 									onChange={(e) => setFullName(e.target.value)}
 									autoComplete="name"
 									required
-									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+									className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 								/>
 							</div>
 

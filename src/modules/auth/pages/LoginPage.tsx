@@ -40,7 +40,7 @@ export default function LoginPage() {
         <p className="text-3xl font-semibold tracking-tight text-[#141414]">Task Manager</p>
 
         <div className="flex flex-1 items-center">
-          <div className="mx-auto w-full max-w-[620px]">
+          <div className="mx-auto w-full max-w-155">
             <h1 className="text-center text-5xl font-semibold tracking-tight text-[#191919]">Welcome Back</h1>
             <p className="mt-4 text-center text-xl leading-tight text-[#333333]">
               Please enter your details to log in
@@ -77,7 +77,7 @@ export default function LoginPage() {
                     autoComplete="current-password"
                     required
                     minLength={8}
-                    className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#191919] placeholder:text-[#999] focus:border-[#2767e7] focus:outline-none"
+                    className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#191919] placeholder:text-[#999] focus:border-[#2767e7] focus:outline-none"
                   />
                   <button
                     type="button"
@@ -95,16 +95,15 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-1 h-13 w-full rounded-lg bg-blue-500 text-xl font-semibold uppercase tracking-wide text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-1 h-13 w-full rounded-lg bg-primary-500 text-xl font-semibold uppercase tracking-wide text-white transition-colors hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? "Logging in..." : "Login"}
               </button>
-              
             </form>
 
             <p className="mt-5 text-xl text-[#303030]">
               Don&apos;t have an account?{" "}
-              <Link to="/signup" className="font-semibold text-[#2767e7] underline-offset-2 hover:underline">
+              <Link to="/signup" className="font-semibold text-primary-500 underline-offset-2 hover:underline">
                 SignUp
               </Link>
             </p>
