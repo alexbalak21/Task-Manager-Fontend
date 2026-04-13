@@ -77,7 +77,7 @@ export default function SigninPage() {
 									onChange={(e) => setEmail(e.target.value)}
 									autoComplete="email"
 									required
-									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+									className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 								/>
 							</div>
 
@@ -95,7 +95,7 @@ export default function SigninPage() {
 										autoComplete="new-password"
 										required
 										minLength={8}
-										className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+										className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 									/>
 									<button
 										type="button"
@@ -118,7 +118,7 @@ export default function SigninPage() {
 									placeholder="6 Digit Code"
 									value={adminToken}
 									onChange={(e) => setAdminToken(e.target.value)}
-									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+									className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 								/>
 							</div>
 						{error ? <p className="text-sm text-red-600 md:col-span-2">{error}</p> : null}
@@ -126,7 +126,7 @@ export default function SigninPage() {
 								<button
 									type="submit"
 									disabled={isSubmitting}
-									className="h-[52px] w-full rounded-lg bg-primary-500 text-xl font-semibold uppercase tracking-wide text-white hover:bg-primary-600"
+									className="h-13 w-full rounded-lg bg-primary-500 text-xl font-semibold uppercase tracking-wide text-white hover:bg-primary-600"
 								>
 									{isSubmitting ? "Signing Up..." : "Sign Up"}
 								</button>

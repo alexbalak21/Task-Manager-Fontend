@@ -1,10 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import type { ReactNode } from "react";
-import TasksPage from "../modules/Tasks/pages/TasksPage";
 import HomePage from "../modules/Tasks/pages/Home";
 import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
+import ManageTasksPage from "../modules/auth/pages/ManageTasksPage";
+import TeamMemebersPage from "../modules/Users/pages/TeamMemebersPage";
 import { useAuthStore } from "../modules/auth/state/auth.store";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -38,7 +39,7 @@ export function AppRoutes() {
           path="/tasks"
           element={
             <ProtectedRoute>
-              <TasksPage />
+              <ManageTasksPage />
             </ProtectedRoute>
           }
         />
@@ -54,7 +55,7 @@ export function AppRoutes() {
           path="/team-members"
           element={
             <ProtectedRoute>
-              <Navigate to="/home" replace />
+              <TeamMemebersPage />
             </ProtectedRoute>
           }
         />
