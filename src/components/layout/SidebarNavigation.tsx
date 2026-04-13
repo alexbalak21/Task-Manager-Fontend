@@ -27,6 +27,7 @@ export default function SidebarNavigation({ items }: SidebarNavigationProps) {
 						{item.to ? (
 							<NavLink
 								to={item.to}
+								end
 								className={({ isActive }) =>
 									[
 										baseItemClass,

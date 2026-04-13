@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import Button from '../../../components/ui/Button'
-import Input from '../../../components/ui/Input'
-import { Plus, Paperclip } from 'lucide-react'
+import { Plus, Paperclip, Users } from 'lucide-react'
 
 interface TodoItem {
   id: string
@@ -75,7 +73,7 @@ export default function CreateTaskForm() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl rounded-lg bg-white p-8 shadow-sm">
+    <div className="mx-auto max-w-5xl rounded-lg bg-white p-8 shadow-sm">
       <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-white">Create Task</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -160,9 +158,9 @@ export default function CreateTaskForm() {
                   ])
                 }
               }}
-              className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white py-2.5 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-zinc-100 py-2.5 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
             >
-              👥 Add Members
+              <Users/> Add Members
             </button>
             {assignedMembers.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
@@ -284,7 +282,7 @@ export default function CreateTaskForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full rounded-lg bg-blue-500 py-3 font-semibold text-white transition-colors hover:bg-blue-600 active:bg-blue-700"
+          className="w-full rounded-lg bg-primary-450 py-3 font-semibold text-white transition-colors hover:bg-primary-500 active:bg-primary-600"
         >
           CREATE TASK
         </button>
