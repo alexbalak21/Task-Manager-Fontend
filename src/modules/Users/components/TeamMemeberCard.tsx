@@ -22,8 +22,8 @@ function StatTile({
 }) {
 	return (
 		<div className="rounded-2xl bg-[#f7f8fc] px-5 py-4">
-			<p className={`text-2xl font-semibold leading-none ${className}`}>{value}</p>
-			<p className={`mt-2 text-lg font-semibold ${className}`}>{label}</p>
+			<p className={`text-xl font-semibold leading-none ${className}`}>{value}</p>
+			<p className={`mt-2 text-base font-semibold ${className}`}>{label}</p>
 		</div>
 	);
 }
@@ -31,14 +31,13 @@ function StatTile({
 export default function TeamMemeberCard({
 	name = "Mary Jane",
 	email = "mary@timetoprogram.com",
-	roleLabel = "Member",
 	avatarUrl = DEFAULT_AVATAR,
 	pendingCount = 3,
 	inProgressCount = 0,
 	completedCount = 0,
 }: TeamMemeberCardProps) {
 	return (
-		<article className="w-full max-w-[560px] rounded-[28px] border border-[#edf0f5] bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)]">
+		<article className="w-full max-w-140 rounded-2xl border border-[#edf0f5] bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)]">
 			<div className="flex items-center gap-4">
 				<img
 					src={avatarUrl}
@@ -47,8 +46,8 @@ export default function TeamMemeberCard({
 				/>
 
 				<div>
-					<h3 className="text-4xl font-semibold tracking-tight text-[#171717]">{name}</h3>
-					<p className="mt-1 text-xl text-[#6b7280]">{email}</p>
+					<h3 className="text-2xl font-semibold tracking-tight text-[#171717]">{name}</h3>
+					<p className="mt-1 text-lg text-[#6b7280]">{email}</p>
 				</div>
 			</div>
 
@@ -56,13 +55,6 @@ export default function TeamMemeberCard({
 				<StatTile label="Pending" value={pendingCount} className="text-[#6c4ce1]" />
 				<StatTile label="In Progress" value={inProgressCount} className="text-[#15aabf]" />
 				<StatTile label="Completed" value={completedCount} className="text-[#5a4fcf]" />
-			</div>
-
-			<div className="mt-4 flex items-center justify-between px-1 text-sm text-[#9aa1ad]">
-				<span className="rounded-full bg-[#eef2ff] px-3 py-1 font-semibold text-[#5065c8]">
-					{roleLabel}
-				</span>
-				<span className="font-medium">Team Member</span>
 			</div>
 		</article>
 	);

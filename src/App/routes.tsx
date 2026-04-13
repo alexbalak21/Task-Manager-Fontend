@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import type { ReactNode } from "react";
-import HomePage from "../modules/Tasks/pages/Home";
+import DashboardPage from "../modules/Admin/pages/DashboardPage";
 import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
@@ -31,7 +31,7 @@ export function AppRoutes() {
           path="/home"
           element={
             <ProtectedRoute>
-              <HomePage />
+              <DashboardPage />
             </ProtectedRoute>
           }
         />

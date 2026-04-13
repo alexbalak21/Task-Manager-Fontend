@@ -3,12 +3,11 @@ import { useAuthStore } from "../../auth/state/auth.store";
 import TasksStatusCard from "../../../components/dashboard/TasksStatusCard";
 import Donut from "../../../components/charts/Donut";
 import VerticalBars from "../../../components/charts/VerticalBars";
-import TaskCard from "../components/TaskCard";
 
 export default function HomePage() {
   const user = useAuthStore((state) => state.user);
 
-  return (
+  return (  
     <AppShellLayout>
       <section className="p-8 lg:p-10">
         <TasksStatusCard userName={user?.name ?? "Admin"} />
