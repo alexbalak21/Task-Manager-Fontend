@@ -7,34 +7,46 @@ import {
 	SquarePlus,
 	Users,
 } from "lucide-react";
-
-const items: NavItem[] = [
-	{
-		label: "Dashboard",
-		icon: LayoutDashboard,
-	},
-	{
-		label: "Manage Tasks",
-		active: true,
-		icon: ClipboardCheck,
-	},
-	{
-		label: "Create Task",
-		icon: SquarePlus,
-	},
-	{
-		label: "Team Members",
-		icon: Users,
-	},
-	{
-		label: "Logout",
-		icon: LogOut,
-	},
-];
+import { useNavigate } from "react-router";
+import { useAuthStore } from "../../modules/auth/state/auth.store";
 
 export default function Sidebar() {
+	const navigate = useNavigate();
+	const logout = useAuthStore((state) => state.logout);
+
+	const items: NavItem[] = [
+		{
+			label: "Dashboard",
+			icon: LayoutDashboard,
+			to: "/home",
+		},
+		{
+			label: "Manage Tasks",
+			icon: ClipboardCheck,
+			to: "/tasks",
+		},
+		{
+			label: "Create Task",
+			icon: SquarePlus,
+			to: "/tasks/create",
+		},
+		{
+			label: "Team Members",
+			icon: Users,
+			to: "/team-members",
+		},
+		{
+			label: "Logout",
+			icon: LogOut,
+			onClick: () => {
+				logout();
+				navigate("/login", { replace: true });
+			},
+		},
+	];
+
 	return (
-		<aside className="flex h-full w-[340px] flex-col border-r-2 border-zinc-100 bg-white">
+		<aside className="flex h-full w-85 flex-col border-r-2 border-zinc-100 bg-white">
             <UserProfile />
 			<SidebarNavigation items={items} />
 		</aside>

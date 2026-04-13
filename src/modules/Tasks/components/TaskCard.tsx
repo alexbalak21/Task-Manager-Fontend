@@ -100,7 +100,7 @@ export default function TaskCard({
 					{assignees.map((name, index) => (
 						<span
 							key={`${name}-${index}`}
-							className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-slate-500 to-slate-700 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(2,6,23,0.25)]"
+							className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-slate-500 to-slate-700 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(2,6,23,0.25)]"
 							style={{ marginLeft: index === 0 ? 0 : -10, zIndex: assignees.length - index }}
 							aria-label={`Assignee ${name}`}
 						>
