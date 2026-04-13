@@ -44,8 +44,8 @@ export default function SigninPage() {
 
 				<div className="flex flex-1 items-center">
 					<div className="mx-auto w-full max-w-230">
-						<h1 className="text-5xl font-semibold tracking-tight text-[#191919]">Create an Account</h1>
-						<p className="mt-4 text-xl leading-tight text-[#333333]">
+						<h1 className="text-5xl font-semibold tracking-tight text-black">Create an Account</h1>
+						<p className="mt-4 text-xl leading-tight text-gray-600">
 							Join us today by entering your details below.
 						</p>
 						<form onSubmit={onSubmit} className="mt-9 grid gap-5 md:grid-cols-2">
@@ -126,7 +126,7 @@ export default function SigninPage() {
 								<button
 									type="submit"
 									disabled={isSubmitting}
-									className="h-[52px] w-full rounded-lg bg-[#2767e7] text-xl font-semibold uppercase tracking-wide text-white hover:bg-[#1f57c7]"
+									className="h-[52px] w-full rounded-lg bg-primary-500 text-xl font-semibold uppercase tracking-wide text-white hover:bg-primary-600"
 								>
 									{isSubmitting ? "Signing Up..." : "Sign Up"}
 								</button>

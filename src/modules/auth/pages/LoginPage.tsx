@@ -10,8 +10,8 @@ export default function LoginPage() {
   const login = useAuthStore((state) => state.login);
   const accessToken = useAuthStore((state) => state.accessToken);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("john.doe@example.com");
+  const [password, setPassword] = useState("password@1234");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
