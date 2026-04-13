@@ -36,7 +36,7 @@ export default function VerticalBars({ title, bars }: Props) {
         </div>
 
         <div
-          className="grid h-full min-w-0 items-end gap-3 border-b border-slate-200 px-1 sm:gap-6 sm:px-2"
+          className="grid h-full min-w-0 items-end gap-3 border-b border-slate-200 px-1 sm:gap-12 sm:px-2"
           style={{ gridTemplateColumns: `repeat(${bars.length}, minmax(0, 1fr))` }}
         >
           {bars.map((b) => {

@@ -3,6 +3,7 @@ import { useAuthStore } from "../../auth/state/auth.store";
 import TasksStatusCard from "../../../components/dashboard/TasksStatusCard";
 import Donut from "../../../components/charts/Dount";
 import VerticalBars from "../../../components/charts/VerticalBars";
+import TaskCard from "../components/TaskCard";
 
 export default function HomePage() {
   const user = useAuthStore((state) => state.user);
@@ -31,6 +32,7 @@ export default function HomePage() {
             ]}
           />
         </div>
+        <TaskCard />
       </section>
     </AppShellLayout>
   );
