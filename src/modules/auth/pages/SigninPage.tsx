@@ -1,7 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
-import Button from "../../../components/ui/Button";
-import Input from "../../../components/ui/Input";
 import Eye from "../../../assets/icons/Eye";
 import EyeCorssed from "../../../assets/icons/Eye_corssed";
 import loginSidePanel from "../../../assets/images/login_side_panel.jpg";
@@ -45,57 +43,50 @@ export default function SigninPage() {
 				<p className="text-3xl font-semibold tracking-tight text-[#141414]">Task Manager</p>
 
 				<div className="flex flex-1 items-center">
-					<div className="mx-auto w-full max-w-[920px]">
+					<div className="mx-auto w-full max-w-230">
 						<h1 className="text-5xl font-semibold tracking-tight text-[#191919]">Create an Account</h1>
 						<p className="mt-4 text-xl leading-tight text-[#333333]">
 							Join us today by entering your details below.
 						</p>
-
-						{/* <div className="mt-8 flex justify-center">
-							<div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-[#e9eef9] text-[#2f6de5]">
-								<svg viewBox="0 0 24 24" fill="none" className="h-10 w-10" aria-hidden="true">
-									<circle cx="12" cy="8" r="3" stroke="currentColor" strokeWidth="1.75" />
-									<path d="M6 19a6 6 0 0112 0" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-								</svg>
-								<span className="absolute -bottom-0.5 -right-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#2f6de5] text-white">
-									<svg viewBox="0 0 24 24" fill="none" className="h-4 w-4" aria-hidden="true">
-										<path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-									</svg>
-								</span>
-							</div>
-						</div> */}
-
 						<form onSubmit={onSubmit} className="mt-9 grid gap-5 md:grid-cols-2">
-							<Input
-								id="fullName"
-								type="text"
-								placeholder="John"
-								value={fullName}
-								onChange={(e) => setFullName(e.target.value)}
-								autoComplete="name"
-								required
-								className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
-								label="Full Name"
-							/>
+							<div>
+								<label htmlFor="fullName" className="mb-2 block text-xl font-medium text-gray-700">
+									Full Name
+								</label>
+								<input
+									id="fullName"
+									type="text"
+									placeholder="John"
+									value={fullName}
+									onChange={(e) => setFullName(e.target.value)}
+									autoComplete="name"
+									required
+									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+								/>
+							</div>
 
-							<Input
-								id="email"
-								type="email"
-								placeholder="john@example.com"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								autoComplete="email"
-								required
-								className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
-								label="Email Address"
-							/>
+							<div>
+								<label htmlFor="email" className="mb-2 block text-xl font-medium text-gray-700">
+									Email Address
+								</label>
+								<input
+									id="email"
+									type="email"
+									placeholder="john@example.com"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									autoComplete="email"
+									required
+									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+								/>
+							</div>
 
 							<div>
 								<label htmlFor="password" className="mb-2 block text-xl font-medium text-gray-700">
 									Password
 								</label>
 								<div className="relative">
-									<Input
+									<input
 										id="password"
 										type={showPassword ? "text" : "password"}
 										placeholder="Min 8 Characters"
@@ -104,7 +95,7 @@ export default function SigninPage() {
 										autoComplete="new-password"
 										required
 										minLength={8}
-										className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] pr-12 text-lg"
+										className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 									/>
 									<button
 										type="button"
@@ -117,25 +108,28 @@ export default function SigninPage() {
 								</div>
 							</div>
 
-							<Input
-								id="adminInviteToken"
-								type="text"
-								placeholder="6 Digit Code"
-								value={adminToken}
-								onChange={(e) => setAdminToken(e.target.value)}
-								className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
-								label="Admin Invite Token"
-							/>
+							<div>
+								<label htmlFor="adminInviteToken" className="mb-2 block text-xl font-medium text-gray-700">
+									Admin Invite Token
+								</label>
+								<input
+									id="adminInviteToken"
+									type="text"
+									placeholder="6 Digit Code"
+									value={adminToken}
+									onChange={(e) => setAdminToken(e.target.value)}
+									className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+								/>
+							</div>
 						{error ? <p className="text-sm text-red-600 md:col-span-2">{error}</p> : null}
 							<div className="md:col-span-2">
-								<Button
+								<button
 									type="submit"
-									loading={isSubmitting}
 									disabled={isSubmitting}
 									className="h-[52px] w-full rounded-lg bg-[#2767e7] text-xl font-semibold uppercase tracking-wide text-white hover:bg-[#1f57c7]"
 								>
-									Sign Up
-								</Button>
+									{isSubmitting ? "Signing Up..." : "Sign Up"}
+								</button>
 							</div>
 						</form>
 

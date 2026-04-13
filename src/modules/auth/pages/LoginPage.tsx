@@ -1,7 +1,5 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
-import Button from "../../../components/ui/Button";
-import Input from "../../../components/ui/Input";
 import loginSidePanel from "../../../assets/images/login_side_panel.jpg";
 import Eye from "../../../assets/icons/Eye";
 import EyeCorssed from "../../../assets/icons/Eye_corssed";
@@ -49,18 +47,20 @@ export default function LoginPage() {
             </p>
 
             <form onSubmit={onSubmit} className="mt-10 grid gap-5">
-                <div>
-              <Input
-                id="email"
-                type="email"
-                placeholder="john@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                autoComplete="email"
-                required
-                className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] text-lg"
-                label="Email"
-              />
+              <div>
+                <label htmlFor="email" className="mb-2 block text-xl font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                  required
+                  className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#191919] placeholder:text-[#999] focus:border-[#2767e7] focus:outline-none"
+                />
               </div>
 
               <div>
@@ -68,7 +68,7 @@ export default function LoginPage() {
                   Password
                 </label>
                 <div className="relative">
-                  <Input
+                  <input
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Min 8 Characters"
@@ -77,7 +77,7 @@ export default function LoginPage() {
                     autoComplete="current-password"
                     required
                     minLength={8}
-                    className="h-[54px] rounded-lg border-[#e8e8ec] bg-[#f5f5f7] pr-12 text-lg"
+                    className="h-[54px] w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 pr-12 text-lg text-[#191919] placeholder:text-[#999] focus:border-[#2767e7] focus:outline-none"
                   />
                   <button
                     type="button"
@@ -92,14 +92,14 @@ export default function LoginPage() {
 
               {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
-              <Button
+              <button
                 type="submit"
-                loading={isSubmitting}
                 disabled={isSubmitting}
-                className="mt-1 h-[52px] w-full rounded-lg bg-[#2767e7] text-xl font-semibold uppercase tracking-wide text-white hover:bg-[#1f57c7]"
+                className="mt-1 h-13 w-full rounded-lg bg-blue-500 text-xl font-semibold uppercase tracking-wide text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Login
-              </Button>
+                {isSubmitting ? "Logging in..." : "Login"}
+              </button>
+              
             </form>
 
             <p className="mt-5 text-xl text-[#303030]">
