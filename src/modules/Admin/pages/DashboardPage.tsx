@@ -10,9 +10,9 @@ export default function HomePage() {
 
   return (  
     <AppShellLayout>
-      <section className="p-8 lg:p-10">
+      <section className="p-8 lg:p-6">
         <TasksStatusCard userName={user?.name ?? "Admin"} />
-        <div className="mt-8 mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+        <div className="my-6 grid gap-6 md:grid-cols-2 lg:grid-cols-2">
           <Donut
             title="Task Distribution"
             slices={[
