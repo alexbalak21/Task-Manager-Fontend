@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { useAuthStore } from "../modules/auth/state/auth.store";
 import { useTheme } from "../hooks/useTheme";
+import { ToastProvider } from "../components/ui/ToastProvider";
 
 type AppProvidersProps = {
 	children: ReactNode;
@@ -14,5 +15,5 @@ export function AppProviders({ children }: AppProvidersProps) {
 		hydrate();
 	}, [hydrate]);
 
-	return <>{children}</>;
+	return <ToastProvider>{children}</ToastProvider>;
 }

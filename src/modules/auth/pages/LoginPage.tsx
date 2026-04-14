@@ -1,15 +1,16 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
-import { toast } from "react-hot-toast";
 import loginSidePanel from "../../../assets/images/login_side_panel.jpg";
 import Eye from "../../../assets/icons/Eye";
 import EyeCorssed from "../../../assets/icons/Eye_corssed";
 import { useAuthStore } from "../state/auth.store";
+import { useToast } from "../../../components/ui/ToastProvider";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
   const accessToken = useAuthStore((state) => state.accessToken);
+  const toast = useToast();
 
   const [email, setEmail] = useState("john.doe@example.com");
   const [password, setPassword] = useState("password@1234");
@@ -27,10 +28,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await login(email, password);
-      toast.success("Login successful");
+      toast.success("Login successful", "Welcome back.");
       navigate("/home", { replace: true });
     } catch {
-      setError("Login failed. Check your credentials.");
+      setError("Login failed. Check your credentials.");  
     } finally {
       setIsSubmitting(false);
     }
