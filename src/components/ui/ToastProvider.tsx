@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
+
 type ToastVariant = "success" | "error" | "info";
 
 type ToastInput = {
@@ -110,7 +111,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 className="rounded-md px-2 py-1 text-xs font-semibold opacity-70 transition-opacity hover:opacity-100"
                 aria-label="Dismiss notification"
               >
-                Close
+                <span className="text-2xl">×</span>
               </button>
             </div>
           </div>
