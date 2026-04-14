@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Check } from "lucide-react";
 import Modal from "../../../components/ui/Modal";
 
 export type SelectableUser = {
@@ -70,11 +71,14 @@ export default function SelectUsersModal({
 }: SelectUsersModalProps) {
 	const sourceUsers = useMemo(() => users ?? DEFAULT_USERS, [users]);
 	const [selectedIds, setSelectedIds] = useState<string[]>(defaultSelectedIds);
+	const wasOpenRef = useRef(false);
 
 	useEffect(() => {
-		if (!isOpen) return;
+		if (isOpen && !wasOpenRef.current) {
+			setSelectedIds(defaultSelectedIds);
+		}
 
-		setSelectedIds(defaultSelectedIds);
+		wasOpenRef.current = isOpen;
 	}, [defaultSelectedIds, isOpen]);
 
 	const toggleSelection = (userId: string) => {
@@ -125,13 +129,19 @@ export default function SelectUsersModal({
 								</div>
 							</div>
 
-							<input
-								type="checkbox"
-								checked={isSelected}
-								onChange={() => toggleSelection(user.id)}
-								className="h-7 w-7 shrink-0 cursor-pointer appearance-none rounded-sm border-2 border-zinc-400 bg-white checked:border-primary-500 checked:bg-primary-500"
+							<button
+								type="button"
+								onClick={() => toggleSelection(user.id)}
+								aria-pressed={isSelected}
 								aria-label={`Select ${user.name}`}
-							/>
+								className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border-2 transition-colors ${
+									isSelected
+										? "border-primary-500 bg-primary-500 text-white"
+										: "border-zinc-400 bg-white text-transparent"
+								}`}
+							>
+								<Check size={16} strokeWidth={3} />
+							</button>
 						</label>
 					);
 				})}
