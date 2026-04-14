@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Plus, Paperclip, Users } from 'lucide-react'
-import Modal from '../../../components/ui/Modal'
+import SelectUsersModal, { type SelectableUser } from '../../Users/components/SelectUsersModal'
 
 interface TodoItem {
   id: string
@@ -281,15 +281,19 @@ export default function CreateTaskForm() {
         </button>
       </form>
 
-      <Modal
+      <SelectUsersModal
         isOpen={isMembersModalOpen}
-        title="Select Users"
+        defaultSelectedIds={assignedMembers.map((member) => member.id)}
         onClose={() => setIsMembersModalOpen(false)}
-        onCancel={() => setIsMembersModalOpen(false)}
-        onDone={() => setIsMembersModalOpen(false)}
-      >
-        <div className="min-h-[45vh]" />
-      </Modal>
+        onDone={(selectedUsers: SelectableUser[]) => {
+          setAssignedMembers(
+            selectedUsers.map((user) => ({
+              id: user.id,
+              name: user.name
+            }))
+          )
+        }}
+      />
     </div>
   )
 }
