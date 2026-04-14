@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Plus, Paperclip, Users } from 'lucide-react'
+import Modal from '../../../components/ui/Modal'
 
 interface TodoItem {
   id: string
@@ -23,6 +24,7 @@ export default function CreateTaskForm() {
   const [todoInput, setTodoInput] = useState('')
   const [assignedMembers, setAssignedMembers] = useState<AssignedMember[]>([])
   const [attachments, setAttachments] = useState<string[]>([])
+  const [isMembersModalOpen, setIsMembersModalOpen] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -148,16 +150,7 @@ export default function CreateTaskForm() {
             </label>
             <button
               type="button"
-              onClick={() => {
-                // Placeholder for member selection modal
-                const memberName = prompt('Enter member name:')
-                if (memberName) {
-                  setAssignedMembers(prev => [
-                    ...prev,
-                    { id: Date.now().toString(), name: memberName }
-                  ])
-                }
-              }}
+              onClick={() => setIsMembersModalOpen(true)}
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-zinc-100 py-2.5 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
             >
               <Users/> Add Members
@@ -287,6 +280,16 @@ export default function CreateTaskForm() {
           CREATE TASK
         </button>
       </form>
+
+      <Modal
+        isOpen={isMembersModalOpen}
+        title="Select Users"
+        onClose={() => setIsMembersModalOpen(false)}
+        onCancel={() => setIsMembersModalOpen(false)}
+        onDone={() => setIsMembersModalOpen(false)}
+      >
+        <div className="min-h-[45vh]" />
+      </Modal>
     </div>
   )
 }
