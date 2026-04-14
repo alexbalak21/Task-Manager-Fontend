@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router";
+import { toast } from "react-hot-toast";
 import loginSidePanel from "../../../assets/images/login_side_panel.jpg";
 import Eye from "../../../assets/icons/Eye";
 import EyeCorssed from "../../../assets/icons/Eye_corssed";
@@ -26,6 +27,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await login(email, password);
+      toast.success("Login successful");
       navigate("/home", { replace: true });
     } catch {
       setError("Login failed. Check your credentials.");
