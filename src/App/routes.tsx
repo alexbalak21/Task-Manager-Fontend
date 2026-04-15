@@ -5,7 +5,8 @@ import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
 import ManageTasksPage from "../modules/auth/pages/ManageTasksPage";
-import TeamMemebersPage from "../modules/Users/pages/TeamMemebersPage";
+import TeamMemebersPage from "../modules/Users/pages/TeamMembersPage";
+import EditUserPage from "../modules/Users/pages/EditUserPage";
 import { useAuthStore } from "../modules/auth/state/auth.store";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -73,6 +74,14 @@ export function AppRoutes() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SigninPage />} />
+        <Route
+          path="/user/settings"
+          element={
+            <ProtectedRoute>
+              <EditUserPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

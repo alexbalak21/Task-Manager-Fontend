@@ -8,7 +8,16 @@ import Modal from "../../../components/ui/Modal";
 
 export default function EditUserPage() {
 	const { userId } = useParams();
-	const user = useUsersStore((state) => state.users.find((u) => String(u.id) === String(userId)));
+	let user = useUsersStore((state) => state.users.find((u) => String(u.id) === String(userId)));
+	// Mock user for development preview if not found
+	if (!user) {
+		user = {
+			id: 1,
+			name: "Mike",
+			email: "mike@timetoprogram.com",
+			profileImage: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=160&q=80",
+		};
+	}
 	const updateUser = useUsersStore((state) => state.updateUser);
 	const [name, setName] = useState(user?.name || "");
 	const [email, setEmail] = useState(user?.email || "");
@@ -17,7 +26,7 @@ export default function EditUserPage() {
 	const [newPassword, setNewPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	if (!user) return <div className="p-8">User not found.</div>;
+
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
@@ -57,7 +66,17 @@ export default function EditUserPage() {
 	return (
 		<div className="max-w-xl mx-auto p-8">
 			<h2 className="text-2xl font-bold mb-6">Edit User</h2>
-			<form onSubmit={handleSubmit} className="space-y-6">
+            				<div>
+					<label className="block mb-2 font-medium">Profile Image</label>
+					{profileImage ? (
+						<div className="mb-3 flex flex-col items-center gap-4">
+							<img src={profileImage} alt="Profile" className="w-16 h-16 rounded-full object-cover border" />
+							<Button type="button" variant="secondary" onClick={handleRemoveImage}>Remove</Button>
+						</div>
+					) : null}
+					<Input type="file" accept="image/*" onChange={handleImageChange} />
+				</div>
+			<form onSubmit={handleSubmit} className="space-y-6 mt-8">
 				<div>
 					<label className="block mb-2 font-medium">Name</label>
 					<Input value={name} onChange={e => setName(e.target.value)} required />
@@ -66,16 +85,7 @@ export default function EditUserPage() {
 					<label className="block mb-2 font-medium">Email</label>
 					<Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
 				</div>
-				<div>
-					<label className="block mb-2 font-medium">Profile Image</label>
-					{profileImage ? (
-						<div className="mb-2 flex items-center gap-4">
-							<img src={profileImage} alt="Profile" className="w-16 h-16 rounded-full object-cover border" />
-							<Button type="button" variant="secondary" onClick={handleRemoveImage}>Remove</Button>
-						</div>
-					) : null}
-					<Input type="file" accept="image/*" onChange={handleImageChange} />
-				</div>
+
 				<div>
 					<Button type="button" variant="secondary" onClick={() => setShowPasswordModal(true)}>
 						Change Password

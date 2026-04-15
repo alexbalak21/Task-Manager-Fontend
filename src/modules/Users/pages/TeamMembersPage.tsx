@@ -1,6 +1,6 @@
 import { FileText } from "lucide-react";
 import AppShellLayout from "../../../layouts/AppShellLayout";
-import TeamMemeberCard from "../components/TeamMemeberCard";
+import TeamMemeberCard from "../components/TeamMemberCard";
 
 type TeamMember = {
 	name: string;
@@ -113,7 +113,7 @@ const TEAM_MEMBERS: TeamMember[] = [
 	},
 ];
 
-export default function TeamMemebersPage() {
+export default function TeamMembersPage() {
 	return (
 		<AppShellLayout>
 			<section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7">

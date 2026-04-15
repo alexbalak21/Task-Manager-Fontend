@@ -28,7 +28,7 @@ function StatTile({
 	);
 }
 
-export default function TeamMemeberCard({
+export default function TeamMemberCard({
 	name = "Mary Jane",
 	email = "mary@timetoprogram.com",
 	avatarUrl = DEFAULT_AVATAR,
