@@ -53,11 +53,11 @@ export default function TaskCard({
 			</header>
 
 			<div className="relative border-l-4 border-cyan-500 pl-4">
-				<h3 className="text-xl leading-relaxed font-semibold tracking-[-0.02em] text-slate-800">
+				<h3 className="text-2xl leading-relaxed font-semibold tracking-[-0.02em] text-slate-800">
 					{title}
 				</h3>
 
-				<p className="mt-2 max-w-[48ch] text-lg leading text-slate-500">
+				<p className="mt-3 max-w-[48ch] text-lg leading text-slate-500">
 					{description}
 				</p>
 
