@@ -13,7 +13,7 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   const isHydrating = useAuthStore((state) => state.isHydrating);
 
   if (isHydrating) {
-    return <div>Loading session...</div>;
+    return <div className="m-8">Loading session...</div>;
   }
 
   if (!accessToken) {
@@ -28,7 +28,7 @@ function RootRoute() {
   const isHydrating = useAuthStore((state) => state.isHydrating);
 
   if (isHydrating) {
-    return <div>Loading session...</div>;
+    return <div className="m-8">Loading session...</div>;
   }
 
   return <Navigate to={accessToken ? "/home" : "/login"} replace />;
