@@ -8,5 +8,5 @@ export interface UserDto {
 
 export const getAllUsers = async (): Promise<UserDto[]> => {
   const res = await api.get("/api/users");
-  return res.data.users;
+  return res.data;
 };

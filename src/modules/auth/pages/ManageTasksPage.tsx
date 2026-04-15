@@ -1,6 +1,8 @@
 import { FileText } from "lucide-react";
 import AppShellLayout from "../../../layouts/AppShellLayout";
 import TaskCard from "../../Tasks/components/TaskCard";
+import { useEffect } from "react";
+import { useUsersStore } from "../../Users/state/users.store";
 
 type TaskStatus = "in-progress" | "pending";
 type TaskPriority = "high" | "medium" | "low";
@@ -111,6 +113,12 @@ const TASKS: ManageTask[] = [
 
 
 export default function ManageTasksPage() {
+	const { users, loadUsers, loading, error } = useUsersStore();
+
+	useEffect(() => {
+		loadUsers();
+	}, [loadUsers]);
+
 	return (
 		<AppShellLayout>
 			<section className="px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-7">
@@ -153,29 +161,29 @@ export default function ManageTasksPage() {
 					</div>
 				</div>
 
-				       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-					       {TASKS.map((task) => (
-						       <TaskCard
-							       key={task.id}
-							       title={task.title}
-							       description={task.description}
-							       statusLabel={task.status === "in-progress" ? "In Progress" : task.status === "pending" ? "Pending" : "Completed"}
-							       priorityLabel={
-								       task.priority === "high"
-									       ? "High Priority"
-									       : task.priority === "medium"
-									       ? "Medium Priority"
-									       : "Low Priority"
-							       }
-							       totalTasks={task.totalTasks}
-							       completedTasks={task.completedTasks}
-							       startDate={task.startDate}
-							       dueDate={task.dueDate}
-							       attachmentsCount={task.attachmentsCount}
-							       assignees={task.assignees}
-						       />
-					       ))}
-				       </div>
+				<div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+					{TASKS.map((task) => (
+						<TaskCard
+							key={task.id}
+							title={task.title}
+							description={task.description}
+							statusLabel={task.status === "in-progress" ? "In Progress" : task.status === "pending" ? "Pending" : "Completed"}
+							priorityLabel={
+								task.priority === "high"
+									? "High Priority"
+									: task.priority === "medium"
+									? "Medium Priority"
+									: "Low Priority"
+							}
+							totalTasks={task.totalTasks}
+							completedTasks={task.completedTasks}
+							startDate={task.startDate}
+							dueDate={task.dueDate}
+							attachmentsCount={task.attachmentsCount}
+							assignees={task.assignees}
+						/>
+					))}
+				</div>
 			</section>
 		</AppShellLayout>
 	);

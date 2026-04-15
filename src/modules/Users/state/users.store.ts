@@ -20,6 +20,7 @@ export const useUsersStore = create<UsersState>((set) => ({
       set({ loading: true, error: null });
       const data = await getAllUsers();
       set({ users: data, loading: false });
+      console.log("Fetched users:", data);
     } catch (err: any) {
       set({ error: err.message, loading: false });
     }
