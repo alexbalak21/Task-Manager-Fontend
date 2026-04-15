@@ -23,10 +23,22 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+function RootRoute() {
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isHydrating = useAuthStore((state) => state.isHydrating);
+
+  if (isHydrating) {
+    return <div>Loading session...</div>;
+  }
+
+  return <Navigate to={accessToken ? "/home" : "/login"} replace />;
+}
+
 export function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<RootRoute />} />
         <Route
           path="/home"
           element={
@@ -61,7 +73,7 @@ export function AppRoutes() {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SigninPage />} />
-        <Route path="*" element={<Navigate to="/home" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

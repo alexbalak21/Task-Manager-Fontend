@@ -39,33 +39,34 @@ export default function TaskCard({
 
 	return (
 		<article
-			className="w-full max-w-xl rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_12px_26px_-16px_rgba(15,23,42,0.35)] sm:p-6"
+			className="w-full max-w-xl rounded-3xl border border-slate-100 bg-white p-5 shadow-xl sm:p-6"
 			aria-label="Task Card"
 		>
 			<header className="mb-4 flex flex-wrap items-center gap-3">
-				<span className="rounded-lg bg-[#dff5f7] px-4 py-1.5 text-base font-semibold text-[#1e8ba0]">
+				<span className="rounded-lg bg-sky-100 px-4 py-1.5 text-sm font-semibold text-teal-600">
 					{statusLabel}
 				</span>
-				<span className="rounded-lg bg-[#f8dbe4] px-4 py-1.5 text-base font-semibold text-[#be4a75]">
+
+				<span className="rounded-lg bg-pink-100 px-4 py-1.5 text-sm font-semibold text-pink-600">
 					{priorityLabel}
 				</span>
 			</header>
 
-			<div className="relative border-l-4 border-[#22b3cb] pl-4">
-				<h3 className="text-2xl leading-relaxed font-semibold tracking-[-0.02em] text-[#1f2738]">
+			<div className="relative border-l-4 border-cyan-500 pl-4">
+				<h3 className="text-xl leading-relaxed font-semibold tracking-[-0.02em] text-slate-800">
 					{title}
 				</h3>
 
-				<p className="mt-2 max-w-[48ch] text-xl leading text-[#697487]">
+				<p className="mt-2 max-w-[48ch] text-lg leading text-slate-500">
 					{description}
 				</p>
 
-				<p className="mt-4 text-lg font-semibold text-[#212938]">
+				<p className="mt-4 text-lg font-semibold text-slate-700">
 					Task Done: {completedTasks} / {totalTasks}
 				</p>
 
 				<div
-					className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-[#e3e7ef]"
+					className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-200"
 					role="progressbar"
 					aria-valuemin={0}
 					aria-valuemax={totalTasks}
@@ -73,7 +74,7 @@ export default function TaskCard({
 					aria-valuetext={`${progress}% complete`}
 				>
 					<div
-						className="h-full rounded-full bg-[#1fb8d4] transition-[width] duration-300 ease-out"
+						className="h-full rounded-full bg-cyan-500 transition-[width] duration-300 ease-out"
 						style={{ width: `${progress}%` }}
 					/>
 				</div>

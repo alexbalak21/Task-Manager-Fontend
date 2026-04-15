@@ -22,10 +22,11 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
+  // Start in hydrating mode when a refresh token exists so protected routes do not redirect early.
   user: null,
   accessToken: null,
   refreshToken: localStorage.getItem("refresh_token"),
-  isHydrating: false,
+  isHydrating: Boolean(localStorage.getItem("refresh_token")),
 
   login: async (email, password) => {
     const res = await AuthAPI.login(email, password);
