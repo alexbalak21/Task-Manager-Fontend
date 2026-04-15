@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+# Task Manager Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+Task Manager Frontend is a modern web application for managing tasks, teams, and workflows. It provides dashboards, user roles (admin, worker), and intuitive UI components for efficient project and task management.
 
-Currently, two official plugins are available:
+## Features
+- User authentication (login, sign-in)
+- Task creation, update, and tracking
+- Team management and user assignment
+- Dashboard with charts and task status
+- Responsive and clean UI
+- Modular code structure with reusable components
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+```
+src/
+	app/           # App entry, providers, routes
+	assets/        # Icons, images, global styles
+	components/    # Reusable UI and layout components
+	hooks/         # Custom React hooks
+	layouts/       # Layout components
+	modules/       # Feature modules (Admin, Auth, Tasks, Users)
+	services/      # API and service logic
+	utils/         # Utility types and helpers
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
+### Prerequisites
+- Node.js (v16+ recommended)
+- npm or yarn
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+```bash
+git clone <repository-url>
+cd task-manager-frontend
+npm install
+# or
+yarn install
 ```
+
+### Running the App
+```bash
+npm run dev
+# or
+yarn dev
+```
+The app will be available at `http://localhost:5173` (default Vite port).
+
+## Usage
+1. **Login** with your credentials.
+2. **View Dashboard** for an overview of tasks and team status.
+3. **Create/Manage Tasks** using the Tasks module.
+4. **Assign Users** to tasks and manage team members.
+5. **Track Progress** with visual charts and status cards.
+
+## Scripts
+- `dev` - Start development server
+- `build` - Build for production
+- `preview` - Preview production build
+
+## Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+This project is licensed under the MIT License.

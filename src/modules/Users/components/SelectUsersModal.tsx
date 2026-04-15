@@ -19,42 +19,42 @@ type SelectUsersModalProps = {
 
 const DEFAULT_USERS: SelectableUser[] = [
 	{
-		id: "john-paul",
+		id: "2",
 		name: "John Paul",
 		email: "john@timetoprogram.com",
 		avatarUrl:
 			"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
 	},
 	{
-		id: "mary-jane",
+		id: "3",
 		name: "Mary Jane",
 		email: "mary@timetoprogram.com",
 		avatarUrl:
 			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
 	},
 	{
-		id: "james-dean",
+		id: "4",
 		name: "James Dean",
 		email: "james@timetoprogram.com",
 		avatarUrl:
 			"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
 	},
 	{
-		id: "anna-grace",
+		id: "5",
 		name: "Anna Grace",
 		email: "anna@timetoprogram.com",
 		avatarUrl:
 			"https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=160&q=80",
 	},
 	{
-		id: "mark-lee",
+		id: "6",
 		name: "Mark Lee",
 		email: "mark@timetoprogram.com",
 		avatarUrl:
 			"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80",
 	},
 	{
-		id: "emma-rose",
+		id: "7",
 		name: "Emma Rose",
 		email: "emma@timetoprogram.com",
 		avatarUrl:

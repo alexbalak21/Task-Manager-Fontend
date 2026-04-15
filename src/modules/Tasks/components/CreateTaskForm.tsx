@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react'
 import { Plus, Paperclip, Users } from 'lucide-react'
 import SelectUsersModal, { type SelectableUser } from '../../Users/components/SelectUsersModal'
+import { useToast } from '../../../components/ui/ToastProvider'
+import { useCreateTask } from '../hooks/useCreateTask'
 
 interface TodoItem {
   id: string
@@ -12,7 +14,36 @@ interface AssignedMember {
   name: string
 }
 
+const PRIORITY_TO_ID: Record<string, number> = {
+  Low: 1,
+  Medium: 2,
+  High: 3,
+  Urgent: 4,
+}
+
+const DEFAULT_STATUS_ID = 1
+
+const getTodayLocalDate = () => {
+  const now = new Date()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${now.getFullYear()}-${month}-${day}`
+}
+
+const toApiDateTime = (date: string, time: string) => `${date}T${time}`
+
+const toNumericUserId = (value: string) => {
+  const parsed = Number(value)
+  if (Number.isInteger(parsed) && parsed > 0) {
+    return parsed
+  }
+  return null
+}
+
 export default function CreateTaskForm() {
+  const toast = useToast()
+  const { createTask, isSubmitting, error } = useCreateTask()
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -26,7 +57,7 @@ export default function CreateTaskForm() {
   const [attachments, setAttachments] = useState<string[]>([])
   const [isMembersModalOpen, setIsMembersModalOpen] = useState(false)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -51,6 +82,12 @@ export default function CreateTaskForm() {
     setTodoItems(prev => prev.filter(item => item.id !== id))
   }
 
+  const handleTodoKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    handleAddTodo()
+  }
+
   const handleAddAttachment = () => {
     // Placeholder for file attachment logic
     const link = prompt('Enter file link:')
@@ -63,15 +100,60 @@ export default function CreateTaskForm() {
     setAttachments(prev => prev.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    console.log({
-      formData,
-      todoItems,
-      assignedMembers,
-      attachments
-    })
-    // TODO: Submit form data to API
+
+    const title = formData.title.trim()
+    if (!title) {
+      toast.error('Title is required')
+      return
+    }
+
+    if (!formData.dueDate) {
+      toast.error('Due date is required')
+      return
+    }
+
+    const users = assignedMembers
+      .map(member => toNumericUserId(member.id))
+      .filter((id): id is number => id !== null)
+
+    const todos = todoItems
+      .map(item => item.text.trim())
+      .filter(item => item.length > 0)
+
+    const priorityId = PRIORITY_TO_ID[formData.priority] ?? 1
+    const startDate = toApiDateTime(getTodayLocalDate(), '09:00:00')
+    const dueDate = toApiDateTime(formData.dueDate, '10:00:00')
+
+    try {
+      await createTask({
+        title,
+        description: formData.description.trim(),
+        priority_id: priorityId,
+        status_id: DEFAULT_STATUS_ID,
+        start_date: startDate,
+        due_date: dueDate,
+        users,
+        todos,
+      })
+
+      setFormData({
+        title: '',
+        description: '',
+        priority: 'Low',
+        dueDate: '',
+      })
+      setTodoItems([])
+      setTodoInput('')
+      setAssignedMembers([])
+      setAttachments([])
+
+      toast.success('Task created', 'The task has been created successfully.')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Could not create task'
+      toast.error('Task creation failed', message)
+    }
   }
 
   return (
@@ -191,7 +273,7 @@ export default function CreateTaskForm() {
               type="text"
               value={todoInput}
               onChange={e => setTodoInput(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && handleAddTodo()}
+              onKeyDown={handleTodoKeyDown}
               placeholder="Enter Task"
               className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 placeholder-gray-400 text-gray-900 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
             />
@@ -272,12 +354,15 @@ export default function CreateTaskForm() {
           )}
         </div>
 
+        {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
+
         {/* Submit Button */}
         <button
           type="submit"
+          disabled={isSubmitting}
           className="w-full rounded-lg bg-primary-450 py-3 font-semibold text-white transition-colors hover:bg-primary-500 active:bg-primary-600"
         >
-          CREATE TASK
+          {isSubmitting ? 'CREATING TASK...' : 'CREATE TASK'}
         </button>
       </form>
 
