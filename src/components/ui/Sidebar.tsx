@@ -1,4 +1,4 @@
-import UserProfile from "../layout/UserProfile";
+import UserProfile from "../../modules/Users/components/SidebarUserProfile";
 import SidebarNavigation, { type NavItem } from "../layout/SidebarNavigation";
 import {
 	ClipboardCheck,
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../modules/auth/state/auth.store";
+import SidebarUserProfile from "../../modules/Users/components/SidebarUserProfile";
 
 export default function Sidebar() {
 	const navigate = useNavigate();
@@ -47,7 +48,7 @@ export default function Sidebar() {
 
 	return (
 		<aside className="flex h-full w-85 flex-col border-r-2 border-zinc-100 bg-white">
-            <UserProfile />
+            <SidebarUserProfile />
 			<SidebarNavigation items={items} />
 		</aside>
 	);

@@ -1,6 +1,7 @@
-import { useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react'
+import { useState, useEffect, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react'
 import { Plus, Paperclip, Users } from 'lucide-react'
 import SelectUsersModal, { type SelectableUser } from '../../Users/components/SelectUsersModal'
+import { useUsersStore } from '../../Users/state/users.store'
 import { useToast } from '../../../components/ui/ToastProvider'
 import { useCreateTask } from '../hooks/useCreateTask'
 
@@ -41,6 +42,9 @@ const toNumericUserId = (value: string) => {
 }
 
 export default function CreateTaskForm() {
+  // Fetch users from backend
+  const { users, loading, error: usersError, loadUsers } = useUsersStore();
+  useEffect(() => { loadUsers(); }, [loadUsers]);
   const toast = useToast()
   const { createTask, isSubmitting, error } = useCreateTask()
 
@@ -234,9 +238,23 @@ export default function CreateTaskForm() {
               type="button"
               onClick={() => setIsMembersModalOpen(true)}
               className="flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-zinc-100 py-2.5 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+              disabled={loading}
             >
-              <Users/> Add Members
+              <Users/> {loading ? 'Loading...' : 'Add Members'}
             </button>
+                  {/* Users Modal */}
+                  <SelectUsersModal
+                    isOpen={isMembersModalOpen}
+                    onClose={() => setIsMembersModalOpen(false)}
+                    users={users.map(u => ({
+                      id: String(u.id),
+                      name: u.name,
+                      email: u.email,
+                      avatarUrl: '', // Optionally map avatar if available
+                    }))}
+                    defaultSelectedIds={assignedMembers.map(m => m.id)}
+                    onDone={selected => setAssignedMembers(selected.map(u => ({ id: u.id, name: u.name })))}
+                  />
             {assignedMembers.length > 0 && (
               <div className="mt-2 flex flex-wrap gap-2">
                 {assignedMembers.map(member => (

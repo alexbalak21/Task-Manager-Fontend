@@ -1,6 +1,6 @@
 
 
-export default function UserProfile() {
+export default function SidebarUserProfile() {
     return (
         <div className="border-b border-[#eceef3] px-6 pb-4 pt-3 text-center">
             <img
