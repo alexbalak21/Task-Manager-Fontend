@@ -246,11 +246,11 @@ export default function CreateTaskForm() {
                   <SelectUsersModal
                     isOpen={isMembersModalOpen}
                     onClose={() => setIsMembersModalOpen(false)}
-                    users={users.map(u => ({
+                    users={(users || []).map(u => ({
                       id: String(u.id),
                       name: u.name,
                       email: u.email,
-                      avatarUrl: '', // Optionally map avatar if available
+                      avatarUrl: u.avatar ? `data:image/png;base64,${u.avatar}` : '',
                     }))}
                     defaultSelectedIds={assignedMembers.map(m => m.id)}
                     onDone={selected => setAssignedMembers(selected.map(u => ({ id: u.id, name: u.name })))}
@@ -386,6 +386,12 @@ export default function CreateTaskForm() {
 
       <SelectUsersModal
         isOpen={isMembersModalOpen}
+        users={(users || []).map(u => ({
+          id: String(u.id),
+          name: u.name,
+          email: u.email,
+          avatarUrl: u.avatar ? `data:image/png;base64,${u.avatar}` : '',
+        }))}
         defaultSelectedIds={assignedMembers.map((member) => member.id)}
         onClose={() => setIsMembersModalOpen(false)}
         onDone={(selectedUsers: SelectableUser[]) => {

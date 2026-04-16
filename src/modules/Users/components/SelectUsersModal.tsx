@@ -13,54 +13,12 @@ type SelectUsersModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
 	onDone?: (selectedUsers: SelectableUser[]) => void;
-	users?: SelectableUser[];
+	users: SelectableUser[];
 	defaultSelectedIds?: string[];
 };
 
-const DEFAULT_USERS: SelectableUser[] = [
-	{
-		id: "2",
-		name: "John Paul",
-		email: "john@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80",
-	},
-	{
-		id: "3",
-		name: "Mary Jane",
-		email: "mary@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80",
-	},
-	{
-		id: "4",
-		name: "James Dean",
-		email: "james@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80",
-	},
-	{
-		id: "5",
-		name: "Anna Grace",
-		email: "anna@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=160&q=80",
-	},
-	{
-		id: "6",
-		name: "Mark Lee",
-		email: "mark@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80",
-	},
-	{
-		id: "7",
-		name: "Emma Rose",
-		email: "emma@timetoprogram.com",
-		avatarUrl:
-			"https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80",
-	},
-];
+
+
 
 export default function SelectUsersModal({
 	isOpen,
@@ -69,7 +27,7 @@ export default function SelectUsersModal({
 	users,
 	defaultSelectedIds = [],
 }: SelectUsersModalProps) {
-	const sourceUsers = useMemo(() => users ?? DEFAULT_USERS, [users]);
+	const sourceUsers = users;
 	const [selectedIds, setSelectedIds] = useState<string[]>(defaultSelectedIds);
 	const wasOpenRef = useRef(false);
 
@@ -106,45 +64,46 @@ export default function SelectUsersModal({
 			contentClassName="!min-h-0 !p-0"
 		>
 			<div className="max-h-[58vh] overflow-y-auto px-6 sm:px-7">
-				{sourceUsers.map((user) => {
-					const isSelected = selectedIds.includes(user.id);
-
-					return (
-						<label
-							key={user.id}
-							className="flex cursor-pointer items-center justify-between gap-4 border-b border-zinc-200 py-5"
-						>
-							<div className="flex min-w-0 items-center gap-4">
-								<img
-									src={user.avatarUrl}
-									alt={`${user.name} avatar`}
-									className="h-12 w-12 rounded-full object-cover"
-								/>
-
-								<div className="min-w-0">
-									<p className="truncate text-2xl font-semibold leading-none text-black">
-										{user.name}
-									</p>
-									<p className="mt-2 truncate text-xl text-gray-600">{user.email}</p>
-								</div>
-							</div>
-
-							<button
-								type="button"
-								onClick={() => toggleSelection(user.id)}
-								aria-pressed={isSelected}
-								aria-label={`Select ${user.name}`}
-								className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border-2 transition-colors ${
-									isSelected
-										? "border-primary-500 bg-primary-500 text-white"
-										: "border-zinc-400 bg-white text-transparent"
-								}`}
+				{sourceUsers.length === 0 ? (
+					<div className="py-8 text-center text-gray-500">No users available.</div>
+				) : (
+					sourceUsers.map((user) => {
+						const isSelected = selectedIds.includes(user.id);
+						return (
+							<label
+								key={user.id}
+								className="flex cursor-pointer items-center justify-between gap-4 border-b border-zinc-200 py-5"
 							>
-								<Check size={16} strokeWidth={3} />
-							</button>
-						</label>
-					);
-				})}
+								<div className="flex min-w-0 items-center gap-4">
+									<img
+										src={user.avatarUrl}
+										alt={`${user.name} avatar`}
+										className="h-12 w-12 rounded-full object-cover"
+									/>
+									<div className="min-w-0">
+										<p className="truncate text-2xl font-semibold leading-none text-black">
+											{user.name}
+										</p>
+										<p className="mt-2 truncate text-xl text-gray-600">{user.email}</p>
+									</div>
+								</div>
+								<button
+									type="button"
+									onClick={() => toggleSelection(user.id)}
+									aria-pressed={isSelected}
+									aria-label={`Select ${user.name}`}
+									className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border-2 transition-colors ${
+										isSelected
+											? "border-primary-500 bg-primary-500 text-white"
+											: "border-zinc-400 bg-white text-transparent"
+									}`}
+								>
+									<Check size={16} strokeWidth={3} />
+								</button>
+							</label>
+						);
+					})
+				)}
 			</div>
 		</Modal>
 	);
