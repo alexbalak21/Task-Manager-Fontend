@@ -1,12 +1,14 @@
 
 
-import { useNavigate } from "react-router";
+
+import { useState } from "react";
 import Button from "../../../components/ui/Button";
+import EditUserModal from "../pages/EditUserModal";
 
 export default function SidebarUserProfile() {
-    const navigate = useNavigate();
     // TODO: Replace with actual user id from auth/user store
     const userId = 1;
+    const [showEditModal, setShowEditModal] = useState(false);
     return (
         <div className="border-b border-[#eceef3] px-6 pb-4 pt-3 text-center">
             <img
@@ -19,9 +21,16 @@ export default function SidebarUserProfile() {
             </div>
             <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[#1d1d1f]">Mike</h2>
             <p className="mt-2 text-md text-[#4a4a4a]">mike@timetoprogram.com</p>
-            <Button className="mt-4 w-full" onClick={() => navigate(`/user/settings`)}>
+            <Button className="mt-4 w-full" onClick={() => setShowEditModal(true)}>
                 Edit Profile
             </Button>
+            {showEditModal && (
+                <EditUserModal
+                    isOpen={showEditModal}
+                    onClose={() => setShowEditModal(false)}
+                    userId={userId}
+                />
+            )}
         </div>
     );
 }
