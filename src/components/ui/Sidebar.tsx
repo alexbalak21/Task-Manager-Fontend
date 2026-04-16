@@ -1,4 +1,3 @@
-import UserProfile from "../../modules/Users/components/SidebarUserProfile";
 import SidebarNavigation, { type NavItem } from "../layout/SidebarNavigation";
 import {
 	ClipboardCheck,
@@ -14,6 +13,7 @@ import SidebarUserProfile from "../../modules/Users/components/SidebarUserProfil
 export default function Sidebar() {
 	const navigate = useNavigate();
 	const logout = useAuthStore((state) => state.logout);
+	const user = useAuthStore((state) => state.user);
 
 	const items: NavItem[] = [
 		{
@@ -48,7 +48,12 @@ export default function Sidebar() {
 
 	return (
 		<aside className="flex h-full w-85 flex-col border-r-2 border-zinc-100 bg-white">
-            <SidebarUserProfile />
+			<SidebarUserProfile
+				name={user?.name || ""}
+				email={user?.email || ""}
+				profile_image={user?.profileImage || ""}
+				userId={user?.id || ""}
+			/>
 			<SidebarNavigation items={items} />
 		</aside>
 	);

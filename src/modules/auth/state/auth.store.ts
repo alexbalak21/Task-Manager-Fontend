@@ -10,6 +10,33 @@ type AuthUser = {
 
 };
 
+type AuthResponseUser = AuthUser & {
+  profile_image?: string;
+};
+
+const extractUser = (payload: unknown): AuthResponseUser | null => {
+  if (!payload || typeof payload !== "object") {
+    return null;
+  }
+
+  const candidate = payload as { user?: AuthResponseUser };
+  return candidate.user ?? (payload as AuthResponseUser);
+};
+
+const normalizeUser = (user: AuthResponseUser | null | undefined): AuthUser | null => {
+  if (!user) {
+    return null;
+  }
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    profileImage: user.profileImage ?? user.profile_image,
+  };
+};
+
 interface AuthState {
   user: AuthUser | null;
   accessToken: string | null;
@@ -32,9 +59,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   login: async (email, password) => {
     const res = await AuthAPI.login(email, password);
+    const user = extractUser(res.data);
 
     set({
-      user: res.data.user,
+      user: normalizeUser(user),
       accessToken: res.data.access_token,
       refreshToken: res.data.refresh_token,
     });
@@ -44,9 +72,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   register: async (name, email, password) => {
     const res = await AuthAPI.register(name, email, password);
+    const user = extractUser(res.data);
 
     set({
-      user: res.data.user,
+      user: normalizeUser(user),
       accessToken: res.data.access_token,
       refreshToken: res.data.refresh_token,
     });
@@ -70,6 +99,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (res.data.refresh_token) {
       localStorage.setItem("refresh_token", res.data.refresh_token);
     }
+
+    const userResponse = await AuthAPI.me();
+    set({ user: normalizeUser(extractUser(userResponse.data)) });
   },
 
   logout: () => {
