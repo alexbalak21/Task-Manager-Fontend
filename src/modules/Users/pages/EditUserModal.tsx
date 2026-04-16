@@ -1,9 +1,11 @@
 
+
 import { useState } from "react";
 import { useUsersStore } from "../state/users.store";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import Modal from "../../../components/ui/Modal";
+import { uploadProfileImage, deleteProfileImage } from "../services/users.api";
 
 interface EditUserModalProps {
 	isOpen: boolean;
@@ -30,19 +32,45 @@ export default function EditUserModal({ isOpen, onClose, userId }: EditUserModal
 	const [newPassword, setNewPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const [imageUploading, setImageUploading] = useState(false);
+	const [imageError, setImageError] = useState<string | null>(null);
+	const [imageDeleting, setImageDeleting] = useState(false);
+
+	const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (file) {
-			const reader = new FileReader();
-			reader.onload = (ev) => {
-				setProfileImage(ev.target?.result as string);
-			};
-			reader.readAsDataURL(file);
+			setImageUploading(true);
+			setImageError(null);
+			try {
+				const res = await uploadProfileImage(file);
+				if (res.success && res.profileImage) {
+					setProfileImage(res.profileImage);
+				} else {
+					setImageError(res.message || "Failed to upload image");
+				}
+			} catch (err: any) {
+				setImageError(err.message || "Failed to upload image");
+			} finally {
+				setImageUploading(false);
+			}
 		}
 	};
 
-	const handleRemoveImage = () => {
-		setProfileImage("");
+	const handleRemoveImage = async () => {
+		setImageDeleting(true);
+		setImageError(null);
+		try {
+			const res = await deleteProfileImage();
+			if (res.success) {
+				setProfileImage("");
+			} else {
+				setImageError(res.message || "Failed to delete image");
+			}
+		} catch (err: any) {
+			setImageError(err.message || "Failed to delete image");
+		} finally {
+			setImageDeleting(false);
+		}
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -74,10 +102,14 @@ export default function EditUserModal({ isOpen, onClose, userId }: EditUserModal
 					{profileImage ? (
 						<div className="mb-3 flex flex-col items-center gap-4">
 							<img src={profileImage} alt="Profile" className="w-16 h-16 rounded-full object-cover border" />
-							<Button type="button" variant="secondary" onClick={handleRemoveImage}>Remove</Button>
+							<Button type="button" variant="secondary" onClick={handleRemoveImage} disabled={imageDeleting}>
+								{imageDeleting ? "Removing..." : "Remove"}
+							</Button>
 						</div>
 					) : null}
-					<Input type="file" accept="image/*" onChange={handleImageChange} />
+					<Input type="file" accept="image/*" onChange={handleImageChange} disabled={imageUploading} />
+					{imageUploading && <div className="text-sm text-gray-500 mt-1">Uploading...</div>}
+					{imageError && <div className="text-sm text-red-500 mt-1">{imageError}</div>}
 				</div>
 				<form onSubmit={handleSubmit} className="space-y-6 mt-8">
 					<div>
