@@ -1,12 +1,24 @@
+import { useEffect } from "react";
 import AppShellLayout from "../../../layouts/AppShellLayout";
 import { useAuthStore } from "../../auth/state/auth.store";
 import TasksStatusCard from "../../../components/dashboard/TasksStatusCard";
 import Donut from "../../../components/charts/Donut";
 import VerticalBars from "../../../components/charts/VerticalBars";
 import TaskListTable from "../../Tasks/components/TaskListTable";
+import { useTasksStore } from "../../Tasks/state/tasks.store";
 
 export default function HomePage() {
   const user = useAuthStore((state) => state.user);
+  const tasks = useTasksStore((state) => state.tasks);
+  const loadTasks = useTasksStore((state) => state.loadTasks);
+
+  useEffect(() => {
+    void loadTasks();
+  }, [loadTasks]);
+
+  useEffect(() => {
+    console.log("Dashboard tasks:", tasks);
+  }, [tasks]);
 
   return (  
     <AppShellLayout>

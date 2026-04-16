@@ -1,0 +1,49 @@
+Request :
+### GET ALL TASKS ###
+# @name getTasks
+GET {{baseUrl}}/api/tasks
+Authorization: Bearer {{Admin_Access_Token}}
+
+Response :
+
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.6 Python/3.14.3
+Date: Thu, 16 Apr 2026 15:12:53 GMT
+Content-Type: application/json
+Content-Length: 784
+Connection: close
+
+[
+  {
+    "created_at": "2026-04-16T15:11:24",
+    "description": "This is a new task created via API.",
+    "due_date": "2026-03-30T10:00:00",
+    "id": 1,
+    "priority_id": 1,
+    "start_date": "2026-03-25T09:00:00",
+    "status_id": 1,
+    "title": "New Task",
+    "todos": [],
+    "updated_at": "2026-04-16T15:11:24",
+    "users": []
+  },
+  {
+    "created_at": "2026-04-16T15:11:30",
+    "description": "Test task with users and todos assigned directly in the creation request.",
+    "due_date": "2026-03-30T10:00:00",
+    "id": 2,
+    "priority_id": 1,
+    "start_date": "2026-03-25T09:00:00",
+    "status_id": 1,
+    "title": "Task with users & todos",
+    "todos": [
+      1,
+      2,
+      3
+    ],
+    "updated_at": "2026-04-16T15:11:30",
+    "users": [
+      2
+    ]
+  }
+]

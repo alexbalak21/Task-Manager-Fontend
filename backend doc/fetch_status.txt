@@ -1,0 +1,39 @@
+Request :
+
+### FETCH ALL STATUS REQUEST ###
+# @name getStatuses
+GET {{baseUrl}}/api/statuses
+Authorization: Bearer {{User_Access_Token}}
+
+
+Response :
+
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.6 Python/3.14.3
+Date: Thu, 16 Apr 2026 16:00:54 GMT
+Content-Type: application/json
+Content-Length: 282
+Connection: close
+
+[
+  {
+    "color": "#F0B100",
+    "id": 1,
+    "name": "Pending"
+  },
+  {
+    "color": "#FE9A00",
+    "id": 2,
+    "name": "Awaiting"
+  },
+  {
+    "color": "#2B7FFF",
+    "id": 3,
+    "name": "In Progress"
+  },
+  {
+    "color": "#00A63E",
+    "id": 4,
+    "name": "Completed"
+  }
+]
