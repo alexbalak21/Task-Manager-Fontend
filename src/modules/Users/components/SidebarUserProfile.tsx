@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Button from "../../../components/ui/Button";
 import EditUserModal from "../pages/EditUserModal";
+import Avatar from "./Avatar";
 
 
 interface SidebarUserProfileProps {
@@ -18,23 +19,7 @@ export default function SidebarUserProfile({ name, email, profile_image, userId 
     console.log("profile_image:", profile_image);
     return (
         <div className="border-b border-gray-200 px-6 pb-4 pt-3 text-center">
-            {profile_image ? (
-                <img
-                    src={
-                        !profile_image
-                            ? '/default-avatar.png'
-                            : profile_image.startsWith('data:') || profile_image.startsWith('http')
-                                ? profile_image
-                                : `data:image/jpeg;base64,${profile_image}`
-                    }
-                    alt="Profile avatar"
-                    className="mx-auto h-26 w-26 rounded-full object-cover"
-                />
-            ) : (
-                <div className="mx-auto h-26 w-26 flex items-center justify-center rounded-full bg-gray-200 text-4xl font-bold text-gray-600 select-none" style={{ width: '6.5rem', height: '6.5rem' }}>
-                    {name ? name.trim().split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase() : "?"}
-                </div>
-            )}
+           < Avatar name={name} profile_image={profile_image} size={120} className="mx-auto" />
             <div className="mx-auto mt-2 inline-flex rounded-lg bg-primary-500 px-4 py-1 text-sm font-semibold text-white">
                 Admin
             </div>
