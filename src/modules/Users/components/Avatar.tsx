@@ -1,6 +1,3 @@
-
-import React from "react";
-
 interface AvatarProps {
 	name?: string;
 	profile_image?: string | null;

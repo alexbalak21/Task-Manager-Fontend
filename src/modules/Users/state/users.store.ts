@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getAllUsers, updateUser as updateUserApi,  } from "../services/users.api";
+import { getAllUsers, updateUser as updateUserApi } from "../services/users.api";
 import type { UpdateUserDto, UserDto } from "../services/users.api";
 
 interface UsersState {

@@ -250,7 +250,7 @@ export default function CreateTaskForm() {
                       id: String(u.id),
                       name: u.name,
                       email: u.email,
-                      avatarUrl: u.avatar ? `data:image/png;base64,${u.avatar}` : '',
+                      profile_image: u.profile_image ?? '',
                     }))}
                     defaultSelectedIds={assignedMembers.map(m => m.id)}
                     onDone={selected => setAssignedMembers(selected.map(u => ({ id: u.id, name: u.name })))}
@@ -390,7 +390,7 @@ export default function CreateTaskForm() {
           id: String(u.id),
           name: u.name,
           email: u.email,
-          avatarUrl: u.avatar ? `data:image/png;base64,${u.avatar}` : '',
+          profile_image: u.profile_image ?? '',
         }))}
         defaultSelectedIds={assignedMembers.map((member) => member.id)}
         onClose={() => setIsMembersModalOpen(false)}

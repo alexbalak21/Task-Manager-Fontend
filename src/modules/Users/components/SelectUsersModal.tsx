@@ -2,11 +2,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import Modal from "../../../components/ui/Modal";
 
+import Avatar from "./Avatar";
+
 export type SelectableUser = {
 	id: string;
 	name: string;
 	email: string;
-	avatarUrl: string;
+	profile_image: string;
 };
 
 type SelectUsersModalProps = {
@@ -27,6 +29,7 @@ export default function SelectUsersModal({
 	users,
 	defaultSelectedIds = [],
 }: SelectUsersModalProps) {
+	console.log("SelectUsersModal users:", users);
 	const sourceUsers = users;
 	const [selectedIds, setSelectedIds] = useState<string[]>(defaultSelectedIds);
 	const wasOpenRef = useRef(false);
@@ -75,10 +78,11 @@ export default function SelectUsersModal({
 								className="flex cursor-pointer items-center justify-between gap-4 border-b border-zinc-200 py-5"
 							>
 								<div className="flex min-w-0 items-center gap-4">
-									<img
-										src={user.avatarUrl}
-										alt={`${user.name} avatar`}
-										className="h-12 w-12 rounded-full object-cover"
+									<Avatar
+										name={user.name}
+										profile_image={user.profile_image}
+										size={48}
+										className="h-12 w-12"
 									/>
 									<div className="min-w-0">
 										<p className="truncate text-2xl font-semibold leading-none text-black">
@@ -93,9 +97,9 @@ export default function SelectUsersModal({
 									aria-pressed={isSelected}
 									aria-label={`Select ${user.name}`}
 									className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border-2 transition-colors ${
-										isSelected
-											? "border-primary-500 bg-primary-500 text-white"
-											: "border-zinc-400 bg-white text-transparent"
+									isSelected
+										? "border-primary-500 bg-primary-500 text-white"
+										: "border-zinc-400 bg-white text-transparent"
 									}`}
 								>
 									<Check size={16} strokeWidth={3} />
