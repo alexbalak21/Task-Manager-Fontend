@@ -10,6 +10,9 @@ export type TaskDto = {
   due_date: string | null;
   created_at: string | null;
   updated_at: string | null;
+  users: number[];
+  todos: string[];
+  attachments: string[];
 };
 
 export type CreateTaskPayload = {
@@ -21,6 +24,7 @@ export type CreateTaskPayload = {
   due_date: string;
   users: number[];
   todos: string[];
+  attachments: string[];
 };
 
 export const TasksAPI = {
