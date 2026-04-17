@@ -29,7 +29,6 @@ export default function SelectUsersModal({
 	users,
 	defaultSelectedIds = [],
 }: SelectUsersModalProps) {
-	console.log("SelectUsersModal users:", users);
 	const sourceUsers = users;
 	const [selectedIds, setSelectedIds] = useState<string[]>(defaultSelectedIds);
 	const wasOpenRef = useRef(false);

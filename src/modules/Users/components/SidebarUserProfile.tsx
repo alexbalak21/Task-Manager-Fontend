@@ -16,7 +16,6 @@ interface SidebarUserProfileProps {
 
 export default function SidebarUserProfile({ name, email, profile_image, userId }: SidebarUserProfileProps) {
     const [showEditModal, setShowEditModal] = useState(false);
-    console.log("profile_image:", profile_image);
     return (
         <div className="border-b border-gray-200 px-6 pb-4 pt-3 text-center">
            < Avatar name={name} profile_image={profile_image} size={120} className="mx-auto" />

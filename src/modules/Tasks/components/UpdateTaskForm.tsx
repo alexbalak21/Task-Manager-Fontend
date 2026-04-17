@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react'
+import { useState, useEffect, type ChangeEvent, type FormEvent, type KeyboardEvent } from 'react'
+import { useUsersStore } from '../../Users/state/users.store'
 import { Paperclip, Plus, Trash2, Users } from 'lucide-react'
 import SelectUsersModal, { type SelectableUser } from '../../Users/components/SelectUsersModal'
 
@@ -13,6 +14,8 @@ interface AssignedMember {
 }
 
 export default function UpdateTaskForm() {
+	const { users, loadUsers } = useUsersStore();
+	useEffect(() => { loadUsers(); }, []);
 	const [formData, setFormData] = useState({
 		title: 'Create App UI',
 		description: 'Describe task',
@@ -288,6 +291,12 @@ export default function UpdateTaskForm() {
 
 			<SelectUsersModal
 				isOpen={isMembersModalOpen}
+				users={(users || []).map(u => ({
+				  id: String(u.id),
+				  name: u.name,
+				  email: u.email,
+				  profile_image: u.profile_image ?? '',
+				}))}
 				defaultSelectedIds={assignedMembers.map(member => member.id)}
 				onClose={() => setIsMembersModalOpen(false)}
 				onDone={(selectedUsers: SelectableUser[]) => {
