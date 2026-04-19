@@ -84,7 +84,7 @@ export default function CreateTask() {
 
         {/* TODO LIST */}
         <TaskTodoList
-          items={todoItems}
+          TodoItems={todoItems}
           input={todoInput}
           onInput={handleTodoInput}
           onAdd={handleAddTodo}

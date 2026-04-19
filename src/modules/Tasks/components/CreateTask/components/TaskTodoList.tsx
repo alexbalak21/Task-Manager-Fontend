@@ -3,7 +3,7 @@ import type { KeyboardEvent } from "react";
 import type { TodoItem } from "../hooks/useTodoList";
 
 interface TaskTodoListProps {
-  items: TodoItem[];
+  TodoItems: TodoItem[];
   input: string;
   onInput: (value: string) => void;
   onAdd: () => void;
@@ -12,7 +12,7 @@ interface TaskTodoListProps {
 }
 
 export default function TaskTodoList({
-  items,
+  TodoItems,
   input,
   onInput,
   onAdd,
@@ -33,9 +33,9 @@ export default function TaskTodoList({
       </label>
 
       {/* LOCKED LIST */}
-      {items.length > 0 && (
+      {TodoItems.length > 0 && (
         <div className="mb-4 space-y-2">
-          {items.map((item, index) => (
+          {TodoItems.map((item, index) => (
             <div
               key={item.id}
               className="flex items-center rounded-lg bg-gray-50 border border-gray-300 px-3 py-3 text-base"
