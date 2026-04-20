@@ -6,12 +6,16 @@ import TaskDueDateInput from "./CreateTask/components/TaskDueDateInput";
 import TaskAssignees from "./CreateTask/components/TaskAssignees";
 import TaskTodoList from "./CreateTask/components/TaskTodoList";
 import TaskAttachments from "./CreateTask/components/TaskAttachments";
+
 import { useTaskForm } from "./CreateTask/hooks/useTaskForm";
 import { useTodoList } from "./CreateTask/hooks/useTodoList";
 import { useAttachments } from "./CreateTask/hooks/useAttachments";
 import { useAssignees } from "./CreateTask/hooks/useAssignees";
 
 export default function CreateTask() {
+  // -------------------------
+  // TODO LIST HOOK
+  // -------------------------
   const {
     todoItems,
     todoInput,
@@ -22,13 +26,21 @@ export default function CreateTask() {
     resetTodoList,
   } = useTodoList();
 
+  // -------------------------
+  // ATTACHMENTS HOOK
+  // -------------------------
   const {
     attachments,
-    handleAddAttachment,
-    handleRemoveAttachment,
+    attachmentInput,
+    setAttachmentInput,
+    addAttachment,
+    removeAttachment,
     resetAttachments,
   } = useAttachments();
 
+  // -------------------------
+  // ASSIGNEES HOOK
+  // -------------------------
   const {
     assignedMembers,
     users,
@@ -42,15 +54,20 @@ export default function CreateTask() {
     resetAssignees,
   } = useAssignees();
 
-  const { formData, handleInputChange, handleSubmit, isSubmitting, error } = useTaskForm({
-    assignedMembers,
-    todoItems,
-    onSuccess: () => {
-      resetTodoList();
-      resetAttachments();
-      resetAssignees();
-    },
-  });
+  // -------------------------
+  // FORM HOOK
+  // -------------------------
+  const { formData, handleInputChange, handleSubmit, isSubmitting, error } =
+    useTaskForm({
+      assignedMembers,
+      todoItems,
+      attachments,
+      onSuccess: () => {
+        resetTodoList();
+        resetAttachments();
+        resetAssignees();
+      },
+    });
 
   return (
     <div className="mx-auto max-w-5xl rounded-lg bg-white p-8 shadow-sm">
@@ -63,17 +80,23 @@ export default function CreateTask() {
         <TaskTitleInput value={formData.title} onChange={handleInputChange} />
 
         {/* DESCRIPTION */}
-        <TaskDescriptionInput value={formData.description} onChange={handleInputChange} />
+        <TaskDescriptionInput
+          value={formData.description}
+          onChange={handleInputChange}
+        />
 
         {/* PRIORITY / DATE / ASSIGN */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {/* PRIORITY */}
-          <TaskPrioritySelect value={formData.priority} onChange={handleInputChange} />
+          <TaskPrioritySelect
+            value={formData.priority}
+            onChange={handleInputChange}
+          />
 
-          {/* DUE DATE */}
-          <TaskDueDateInput value={formData.dueDate} onChange={handleInputChange} />
+          <TaskDueDateInput
+            value={formData.dueDate}
+            onChange={handleInputChange}
+          />
 
-          {/* ASSIGN TO */}
           <TaskAssignees
             assignedMembers={assignedMembers}
             loading={loading}
@@ -95,16 +118,22 @@ export default function CreateTask() {
         {/* ATTACHMENTS */}
         <TaskAttachments
           attachments={attachments}
-          onAdd={handleAddAttachment}
-          onRemove={handleRemoveAttachment}
+          input={attachmentInput}
+          onInput={setAttachmentInput}
+          onAdd={addAttachment}
+          onRemove={removeAttachment}
         />
 
-        {usersError && <p className="text-sm font-medium text-red-600">{usersError}</p>}
+        {/* ERRORS */}
+        {usersError && (
+          <p className="text-sm font-medium text-red-600">{usersError}</p>
+        )}
 
         {error && (
           <p className="text-sm font-medium text-red-600">{error}</p>
         )}
 
+        {/* SUBMIT */}
         <button
           type="submit"
           disabled={isSubmitting}
@@ -114,7 +143,7 @@ export default function CreateTask() {
         </button>
       </form>
 
-      {/* SINGLE MODAL */}
+      {/* USERS MODAL */}
       <SelectUsersModal
         isOpen={isMembersModalOpen}
         onClose={closeModal}

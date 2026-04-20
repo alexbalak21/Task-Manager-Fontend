@@ -14,6 +14,7 @@ export interface TaskFormData {
 interface UseTaskFormParams {
   assignedMembers: AssignedMember[];
   todoItems: TodoItem[];
+  attachments: string[];          // ✅ ADDED
   onSuccess: () => void;
 }
 
@@ -50,7 +51,12 @@ const toNumericUserId = (value: string) => {
   return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
 };
 
-export function useTaskForm({ assignedMembers, todoItems, onSuccess }: UseTaskFormParams): UseTaskFormResult {
+export function useTaskForm({
+  assignedMembers,
+  todoItems,
+  attachments,          // ✅ ADDED
+  onSuccess,
+}: UseTaskFormParams): UseTaskFormResult {
   const toast = useToast();
   const { createTask, isSubmitting, error } = useCreateTask();
 
@@ -107,6 +113,7 @@ export function useTaskForm({ assignedMembers, todoItems, onSuccess }: UseTaskFo
         due_date: dueDate,
         users,
         todos,
+        attachments,
       });
 
       setFormData({
