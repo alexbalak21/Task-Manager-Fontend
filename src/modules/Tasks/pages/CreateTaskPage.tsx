@@ -1,12 +1,12 @@
 import AppShellLayout from "../../../layouts/AppShellLayout";
-import CreateTaskContainer from "../../CreateTask/CreateTaskContainer";
+import TaskFormContainer from "../../TaskForm/TaskFormContainer";
 
 
 export default function CreateTaskPage() {
   return (
     <AppShellLayout>
       <section className="p-8 lg:p-6">
-        <CreateTaskContainer/>
+        <TaskFormContainer />
       </section>
     </AppShellLayout> 
   );
