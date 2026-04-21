@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useUsersStore } from "../../Users/state/users.store";
 import { useTasksStore } from "../../Tasks/state/tasks.store";
 import { useStatusStore } from "../../Tasks/state/status.store";
-import { usePriorityStore } from "../../Tasks/state/priority.store";
+import { usePriorityStore } from "../../Priority/store/priority.store";
 
 import { useManageTasks } from "../hooks/useManageTasks";
 import { TaskFilters } from "../components/TaskFilters";

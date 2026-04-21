@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useUsersStore } from "../../Users/state/users.store";
 import { useTasksStore } from "../../Tasks/state/tasks.store"; 
 import { useStatusStore } from "../../Tasks/state/status.store"; 
-import { usePriorityStore } from "../../Tasks/state/priority.store"; 
+import { usePriorityStore } from "../../Priority/store/priority.store";
 
 export function useManageTasks() {
   const { users } = useUsersStore();
@@ -35,7 +35,7 @@ export function useManageTasks() {
       const status = statuses.find((s) => s.id === task.status_id);
       const priority = priorities.find((p) => p.id === task.priority_id);
 
-      const assignees = task.users?.map((uid) => {
+      const assignees = task.users?.map((uid: number) => {
         const user = users.find((u) => u.id === uid);
         const initials = user?.name
           ? user.name.split(" ").map((p) => p[0]).join("").toUpperCase()

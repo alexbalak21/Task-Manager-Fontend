@@ -6,7 +6,7 @@ import Donut from "../../../components/charts/Donut";
 import VerticalBars from "../../../components/charts/VerticalBars";
 import TaskListTable from "../../Tasks/components/TaskListTable";
 import { useTasksStore } from "../../Tasks/state/tasks.store";
-import { usePriorityStore } from "../../Tasks/state/priority.store";
+import { usePriorityStore } from "../../Priority/store/priority.store";
 import { useStatusStore } from "../../Tasks/state/status.store";
 
 export default function TaskDashboard() {
