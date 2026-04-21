@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { TasksAPI, type CreateTaskPayload, type TaskDto } from "../services/tasks.api";
+import { TasksAPI } from "../services/tasks.api";
+import type {  CreateTaskPayload } from "../types/task.payloads";
+import type { TaskDto } from "../types/task.dto";
+
 
 type UseCreateTaskResult = {
   createTask: (payload: CreateTaskPayload) => Promise<TaskDto>;
