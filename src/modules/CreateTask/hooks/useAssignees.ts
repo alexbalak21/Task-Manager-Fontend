@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { useAuthStore } from "../../../../auth/state/auth.store";
-import { useUsersStore } from "../../../../Users/state/users.store";
-import type { SelectableUser } from "../../../../Users/components/SelectUsersModal";
+import { useAuthStore } from "../../auth/state/auth.store";
+import { useUsersStore } from "../../Users/state/users.store";
+import type { SelectableUser } from "../../Users/components/SelectUsersModal";
 
 export interface AssignedMember {
   id: string;

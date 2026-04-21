@@ -1,16 +1,16 @@
 import SelectUsersModal from "../../Users/components/SelectUsersModal";
-import TaskTitleInput from "./CreateTask/components/TaskTitleInput";
-import TaskDescriptionInput from "./CreateTask/components/TaskDescriptionInput";
-import TaskPrioritySelect from "./CreateTask/components/TaskPrioritySelect";
-import TaskDueDateInput from "./CreateTask/components/TaskDueDateInput";
-import TaskAssignees from "./CreateTask/components/TaskAssignees";
-import TaskTodoList from "./CreateTask/components/TaskTodoList";
-import TaskAttachments from "./CreateTask/components/TaskAttachments";
+import TaskTitleInput from "../../CreateTask/components/TaskTitleInput";
+import TaskDescriptionInput from "../../CreateTask/components/TaskDescriptionInput";
+import TaskPrioritySelect from "../../CreateTask/components/TaskPrioritySelect";
+import TaskDueDateInput from "../../CreateTask/components/TaskDueDateInput";
+import TaskAssignees from "../../CreateTask/components/TaskAssignees";
+import TaskTodoList from "../../CreateTask/components/TaskTodoList";
+import TaskAttachments from "../../CreateTask/components/TaskAttachments";
 
-import { useTaskForm } from "./CreateTask/hooks/useTaskForm";
-import { useTodoList } from "./CreateTask/hooks/useTodoList";
-import { useAttachments } from "./CreateTask/hooks/useAttachments";
-import { useAssignees } from "./CreateTask/hooks/useAssignees";
+import { useTaskForm } from "../../CreateTask/hooks/useTaskForm";
+import { useTodoList } from "../../CreateTask/hooks/useTodoList";
+import { useAttachments } from "../../CreateTask/hooks/useAttachments";
+import { useAssignees } from "../../CreateTask/hooks/useAssignees";
 
 export default function CreateTask() {
   // -------------------------

@@ -4,7 +4,7 @@ import DashboardPage from "../modules/Admin/pages/DashboardPage";
 import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
-import ManageTasksPage from "../modules/auth/pages/ManageTasksPage";
+import ManageTasksPage from "../modules/ManageTasks/pages/ManageTasksPage";
 import TeamMemebersPage from "../modules/Users/pages/TeamMembersPage";
 import EditUserPage from "../modules/Users/pages/EditUserPage";
 import { useAuthStore } from "../modules/auth/state/auth.store";
@@ -68,7 +68,7 @@ export function AppRoutes() {
           path="/team-members"
           element={
             <ProtectedRoute>
-              <TeamMemebersPage />
+              <TeamMemebersPage />  
             </ProtectedRoute>
           }
         />

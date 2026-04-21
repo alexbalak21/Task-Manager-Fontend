@@ -2,7 +2,7 @@ import { Paperclip } from "lucide-react";
 import Avatar from "../../Users/components/Avatar";
 
 
-type TaskCardProps = {
+export type TaskCardProps = {
 	id?: number;
 	title?: string;
 	description?: string;
