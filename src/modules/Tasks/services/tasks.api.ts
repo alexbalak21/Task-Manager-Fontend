@@ -11,8 +11,10 @@ export type TaskDto = {
   created_at: string | null;
   updated_at: string | null;
   users: number[];
-  todos: string[];
-  attachments: string[];
+  todos: number[];
+  attachments: number[];
+  completed_todos: number;
+  total_todos: number;
 };
 
 export type CreateTaskPayload = {

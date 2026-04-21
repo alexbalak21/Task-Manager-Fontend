@@ -1,6 +1,9 @@
 import { Paperclip } from "lucide-react";
+import Avatar from "../../Users/components/Avatar";
+
 
 type TaskCardProps = {
+	id?: number;
 	title?: string;
 	description?: string;
 	statusLabel?: string;
@@ -10,10 +13,11 @@ type TaskCardProps = {
 	startDate?: string;
 	dueDate?: string;
 	attachmentsCount?: number;
-	assignees?: string[];
+	assignees?: { name: string; profile_image: string }[];
 };
 
-const DEFAULT_ASSIGNEES = ["AL", "RM", "JO"];
+
+const DEFAULT_ASSIGNEES: { name: string; profile_image: string }[] = [];
 
 function toPercent(done: number, total: number): number {
 	if (total <= 0) {
@@ -22,6 +26,7 @@ function toPercent(done: number, total: number): number {
 
 	return Math.max(0, Math.min(100, Math.round((done / total) * 100)));
 }
+
 
 export default function TaskCard({
 	title = "Design Homepage",
@@ -98,15 +103,13 @@ export default function TaskCard({
 
 			<footer className="mt-5 flex items-center justify-between">
 				<div className="flex items-center">
-					{assignees.map((name, index) => (
-						<span
-							key={`${name}-${index}`}
-							className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-slate-500 to-slate-700 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(2,6,23,0.25)]"
-							style={{ marginLeft: index === 0 ? 0 : -10, zIndex: assignees.length - index }}
-							aria-label={`Assignee ${name}`}
-						>
-							{name}
-						</span>
+					{assignees.map((assignee, index) => (
+						<Avatar
+							key={index}
+							name={assignee.name}
+							profile_image={assignee.profile_image}
+							size={40}
+						/>
 					))}
 				</div>
 

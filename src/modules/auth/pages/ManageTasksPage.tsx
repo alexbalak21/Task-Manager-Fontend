@@ -61,21 +61,42 @@ export default function ManageTasksPage() {
       const status = statuses.find((s) => s.id === task.status_id);
       const priority = priorities.find((p) => p.id === task.priority_id);
 
+      // Map assignees: provide { name, profile_image } for TaskCard
+      const assignees = (task.users && users && users.length)
+        ? task.users.map((uid) => {
+            const user = users.find((u) => u.id === uid);
+            let name = "";
+            if (user && user.name) {
+              const parts = user.name.trim().split(" ");
+              name = parts.length > 1
+                ? `${parts[0][0]}${parts[1][0]}`
+                : parts[0][0];
+              name = name.toUpperCase();
+            } else {
+              name = typeof uid === "number" ? `U${uid}` : String(uid);
+            }
+            return {
+              name,
+              profile_image: user?.profile_image || "",
+            };
+          })
+        : [];
+
       return {
         id: task.id,
         title: task.title,
         description: task.description ?? "",
         statusLabel: status?.name ?? "Unknown",
         priorityLabel: priority?.name ?? "Unknown",
-        totalTasks: 1, // adapt if you add subtasks later
-        completedTasks: 0, // adapt later
+        totalTasks: task.total_todos ?? (task.todos?.length ?? 0),
+        completedTasks: task.completed_todos ?? 0,
         startDate: task.start_date ?? "",
         dueDate: task.due_date ?? "",
-        attachmentsCount: 0, // adapt later
-        assignees: [], // adapt when you add user-task relations
+        attachmentsCount: task.attachments?.length ?? 0,
+        assignees,
       };
     });
-  }, [filteredTasks, statuses, priorities]);
+  }, [filteredTasks, statuses, priorities, users]);
 
  
   // Loading guard
