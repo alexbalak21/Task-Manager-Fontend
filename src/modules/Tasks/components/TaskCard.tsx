@@ -9,7 +9,9 @@ export type TaskCardProps = {
 	title?: string;
 	description?: string;
 	statusLabel?: string;
+	statusColor?: string;
 	priorityLabel?: string;
+	priorityColor?: string;
 	totalTasks?: number;
 	completedTasks?: number;
 	startDate?: string;
@@ -34,7 +36,9 @@ export default function TaskCard({
 	title = "Design Homepage",
 	description = "Create a clean and modern homepage layout using Tailwind CSS. Ensure the design is responsive and accessible for all devices.",
 	statusLabel = "In Progress",
+	statusColor = "#0D9488",
 	priorityLabel = "High Priority",
+	priorityColor = "#64748B",
 	totalTasks = 10,
 	completedTasks = 2,
 	startDate = "16th Mar 2025",
@@ -50,10 +54,10 @@ export default function TaskCard({
 			aria-label="Task Card"
 		>
 			<header className="mb-4 flex flex-wrap items-center gap-3">
-				<StatusChip statusName={statusLabel} />
+				<StatusChip name={statusLabel} color={statusColor} />
 
 
-				<PriorityChip priorityName={priorityLabel} />
+				<PriorityChip name={priorityLabel} color={priorityColor} />
 			</header>
 
 			<div className="relative border-l-4 border-cyan-500 pl-4">
