@@ -3,6 +3,7 @@ import { useToast } from "../../../components/ui/ToastProvider";
 import { useCreateTask } from "../../Tasks/hooks/useCreateTask";
 import type { AssignedMember } from "./useAssignees";
 import type { TodoItem } from "./useTodoList";
+import { usePriorityStore } from "../../Priority/store/priority.store";
 
 export interface TaskFormData {
   title: string;
@@ -28,13 +29,6 @@ interface UseTaskFormResult {
   error: string | null;
 }
 
-const PRIORITY_TO_ID: Record<string, number> = {
-  Low: 1,
-  Medium: 2,
-  High: 3,
-  Urgent: 4,
-};
-
 const DEFAULT_STATUS_ID = 1;
 
 const getTodayLocalDate = () => {
@@ -59,6 +53,7 @@ export function useTaskForm({
 }: UseTaskFormParams): UseTaskFormResult {
   const toast = useToast();
   const { createTask, isSubmitting, error } = useCreateTask();
+  const priorities = usePriorityStore((state) => state.priorities);
 
   const [formData, setFormData] = useState<TaskFormData>({
     title: "",
@@ -99,7 +94,14 @@ export function useTaskForm({
       .map((item) => item.text.trim())
       .filter((todo) => todo.length > 0);
 
-    const priorityId = PRIORITY_TO_ID[formData.priority] ?? PRIORITY_TO_ID.Low;
+    const normalizedPriorityName = formData.priority.trim().toLowerCase();
+    const selectedPriority = priorities.find(
+      (priority) => priority.name.trim().toLowerCase() === normalizedPriorityName,
+    );
+    const lowPriority = priorities.find(
+      (priority) => priority.name.trim().toLowerCase() === "low",
+    );
+    const priorityId = selectedPriority?.id ?? lowPriority?.id ?? 1;
     const startDate = toApiDateTime(getTodayLocalDate(), "09:00:00");
     const dueDate = toApiDateTime(formData.dueDate, "10:00:00");
 
@@ -119,7 +121,7 @@ export function useTaskForm({
       setFormData({
         title: "",
         description: "",
-        priority: "Low",
+        priority: lowPriority?.name ?? priorities[0]?.name ?? "Low",
         dueDate: "",
       });
 
