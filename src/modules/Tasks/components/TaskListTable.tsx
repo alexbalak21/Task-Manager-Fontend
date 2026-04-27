@@ -1,13 +1,17 @@
+import { useMemo } from "react";
 import { ArrowRight } from "lucide-react";
-
-type TaskStatus = "pending" | "completed" | "in progress";
-type TaskPriority = "low" | "medium" | "high";
+import PriorityChip from "../../TaskCard/components/PriorityChip";
+import StatusChip from "../../TaskCard/components/StatusChip";
+import { usePriorityStore } from "../../Priority/store/priority.store";
+import { useStatusStore } from "../state/status.store";
+import { useTasksStore } from "../state/tasks.store";
 
 type TaskListRow = {
-	name: string;
-	status: TaskStatus;
-	priority: TaskPriority;
-	createdOn: string;
+	id: number;
+	title: string;
+	status_id: number;
+	priority_id: number;
+	created_at: string | null;
 };
 
 type TaskListTableProps = {
@@ -16,51 +20,24 @@ type TaskListTableProps = {
 	onSeeAll?: () => void;
 };
 
-const DEFAULT_ROWS: TaskListRow[] = [
-	{ name: "Develop Product Review System", status: "pending", priority: "low", createdOn: "17th Mar 2025" },
-	{ name: "Build Feedback Form Module", status: "pending", priority: "high", createdOn: "17th Mar 2025" },
-	{ name: "Implement Notification System", status: "pending", priority: "low", createdOn: "17th Mar 2025" },
-	{ name: "Migrate Database to MongoDB Atlas", status: "completed", priority: "medium", createdOn: "17th Mar 2025" },
-	{ name: "Develop Expense Tracker Module", status: "pending", priority: "low", createdOn: "17th Mar 2025" },
-	{ name: "Design Homepage Banner", status: "pending", priority: "medium", createdOn: "17th Mar 2025" },
-	{ name: "Write Technical Documentation", status: "pending", priority: "medium", createdOn: "17th Mar 2025" },
-	{ name: "Develop User Authentication System", status: "in progress", priority: "high", createdOn: "17th Mar 2025" },
-];
+const DEFAULT_ROWS: TaskListRow[] = [];
 
-function statusStyle(status: TaskStatus) {
-	if (status === "completed") {
-		return "bg-emerald-100 text-emerald-600 border-emerald-200";
+function formatTaskDate(createdAt: string | null) {
+	if (!createdAt) {
+		return "—";
 	}
 
-	if (status === "in progress") {
-		return "bg-cyan-100 text-cyan-600 border-cyan-200";
+	const parsedDate = new Date(createdAt);
+
+	if (Number.isNaN(parsedDate.getTime())) {
+		return createdAt;
 	}
 
-	return "bg-violet-100 text-violet-600 border-violet-200";
-}
-
-function priorityStyle(priority: TaskPriority) {
-	if (priority === "low") {
-		return "bg-emerald-100 text-emerald-600 border-emerald-200";
-	}
-
-	if (priority === "high") {
-		return "bg-rose-100 text-rose-600 border-rose-200";
-	}
-
-	return "bg-amber-100 text-amber-600 border-amber-200";
-}
-
-function formatStatus(status: TaskStatus) {
-	if (status === "in progress") {
-		return "In Progress";
-	}
-
-	return status.charAt(0).toUpperCase() + status.slice(1);
-}
-
-function formatPriority(priority: TaskPriority) {
-	return priority.charAt(0).toUpperCase() + priority.slice(1);
+	return new Intl.DateTimeFormat("en-GB", {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+	}).format(parsedDate);
 }
 
 export default function TaskListTable({
@@ -68,6 +45,32 @@ export default function TaskListTable({
 	rows = DEFAULT_ROWS,
 	onSeeAll,
 }: TaskListTableProps) {
+	const tasks = useTasksStore((state) => state.tasks);
+	const statuses = useStatusStore((state) => state.statuses);
+	const priorities = usePriorityStore((state) => state.priorities);
+
+	const visibleRows = useMemo(() => {
+		const sourceRows = rows.length > 0 ? rows : tasks;
+
+		const statusLookup = new Map(statuses.map((status) => [status.id, status]));
+		const priorityLookup = new Map(priorities.map((priority) => [priority.id, priority]));
+
+		return sourceRows.map((row) => {
+			const status = statusLookup.get(row.status_id);
+			const priority = priorityLookup.get(row.priority_id);
+
+			return {
+				key: row.id,
+				name: row.title,
+				statusName: status?.name ?? `Status ${row.status_id}`,
+				statusColor: status?.color ?? "#0D9488",
+				priorityName: priority?.name ?? `Priority ${row.priority_id}`,
+				priorityColor: priority?.color ?? "#64748B",
+				createdOn: formatTaskDate(row.created_at),
+			};
+		});
+	}, [priorities, rows, statuses, tasks]);
+
 	return (
 		<section className="w-full rounded-[28px] border border-zinc-100 bg-white p-5 shadow-[0_14px_30px_-24px_rgba(15,23,42,0.45)] sm:p-6">
 			<header className="mb-6 flex items-center justify-between gap-4">
@@ -95,18 +98,14 @@ export default function TaskListTable({
 					</thead>
 
 					<tbody>
-						{rows.map((row) => (
-							<tr key={`${row.name}-${row.createdOn}`} className="border-b border-zinc-200 last:border-b-0 text-[18px] text-[#3a3a3a]">
+						{visibleRows.map((row) => (
+							<tr key={row.key} className="border-b border-zinc-200 last:border-b-0 text-[18px] text-[#3a3a3a]">
 								<td className="py-5 pl-4 pr-6">{row.name}</td>
 								<td className="px-6 py-5">
-									<span className={`inline-flex rounded-md border px-3 py-1.5 text-base font-medium ${statusStyle(row.status)}`}>
-										{formatStatus(row.status)}
-									</span>
+									<StatusChip name={row.statusName} color={row.statusColor} />
 								</td>
 								<td className="px-6 py-5">
-									<span className={`inline-flex rounded-md border px-3 py-1.5 text-base font-medium ${priorityStyle(row.priority)}`}>
-										{formatPriority(row.priority)}
-									</span>
+									<PriorityChip name={row.priorityName} color={row.priorityColor} />
 								</td>
 								<td className="px-6 py-5 text-[#4a4a4a]">{row.createdOn}</td>
 							</tr>
