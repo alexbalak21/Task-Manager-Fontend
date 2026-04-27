@@ -1,6 +1,7 @@
 import { Paperclip } from "lucide-react";
 import Avatar from "../../Users/components/Avatar";
 import PriorityChip from "../../TaskCard/components/PriorityChip";
+import StatusChip from "../../TaskCard/components/StatusChip";
 
 
 export type TaskCardProps = {
@@ -49,9 +50,7 @@ export default function TaskCard({
 			aria-label="Task Card"
 		>
 			<header className="mb-4 flex flex-wrap items-center gap-3">
-				<span className="rounded-lg bg-sky-100 px-4 py-1.5 text-sm font-semibold text-teal-600">
-					{statusLabel}
-				</span>
+				<StatusChip statusName={statusLabel} />
 
 
 				<PriorityChip priorityName={priorityLabel} />
