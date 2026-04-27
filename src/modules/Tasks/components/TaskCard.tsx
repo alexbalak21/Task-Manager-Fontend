@@ -1,5 +1,6 @@
 import { Paperclip } from "lucide-react";
 import Avatar from "../../Users/components/Avatar";
+import { usePriorityStore } from "../../Priority/store/priority.store";
 
 
 export type TaskCardProps = {
@@ -52,6 +53,8 @@ export default function TaskCard({
 					{statusLabel}
 				</span>
 
+
+				{/* PRIORITY CHIP */}
 				<span className="rounded-lg bg-pink-100 px-4 py-1.5 text-sm font-semibold text-pink-600">
 					{priorityLabel}
 				</span>
