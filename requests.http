@@ -37,7 +37,7 @@ Authorization: Bearer {{loginAccess_token}}
     "start_date": "2026-03-25T09:00:00",
     "due_date": "2026-03-30T10:00:00",
     "users" : [5,7,9,10],
-    todos: [25,26,28]
+    "todos": [25,26,28]
 }
 
 
