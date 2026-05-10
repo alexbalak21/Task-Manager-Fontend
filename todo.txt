@@ -1,0 +1,2 @@
+implement a button to upload the image on signup
+Implement a page to update the profile image
