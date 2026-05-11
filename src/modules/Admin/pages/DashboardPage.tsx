@@ -13,12 +13,15 @@ export default function TaskDashboard() {
   const user = useAuthStore((state) => state.user);
 
   const tasks = useTasksStore((state) => state.tasks);
+  const tasksLoading = useTasksStore((state) => state.loading);
   const loadTasks = useTasksStore((state) => state.loadTasks);
 
   const priorities = usePriorityStore((state) => state.priorities);
+  const prioritiesLoading = usePriorityStore((state) => state.loading);
   const loadPriorities = usePriorityStore((state) => state.loadPriorities);
 
   const statuses = useStatusStore((state) => state.statuses);
+  const statusesLoading = useStatusStore((state) => state.loading);
   const loadStatuses = useStatusStore((state) => state.loadStatuses);
 
   // Load all reference data + tasks
@@ -45,8 +48,9 @@ export default function TaskDashboard() {
     }));
   }, [priorities, tasks]);
 
-  // Optional: avoid rendering empty charts
-  if (!tasks.length || !statuses.length || !priorities.length) {
+  const isLoading = tasksLoading || statusesLoading || prioritiesLoading;
+
+  if (isLoading) {
     return (
       <AppShellLayout>
         <section className="p-8 lg:p-6">
