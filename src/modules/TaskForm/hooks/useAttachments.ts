@@ -1,8 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export function useAttachments() {
-  const [attachments, setAttachments] = useState<string[]>([]);
+type UseAttachmentsParams = {
+  initialAttachments?: string[];
+};
+
+export function useAttachments({ initialAttachments = [] }: UseAttachmentsParams = {}) {
+  const [attachments, setAttachments] = useState<string[]>(initialAttachments);
   const [attachmentInput, setAttachmentInput] = useState("");
+
+  useEffect(() => {
+    setAttachments(initialAttachments);
+  }, [initialAttachments]);
 
   const addAttachment = () => {
     if (attachmentInput.trim() === "") return;

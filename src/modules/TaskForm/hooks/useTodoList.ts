@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 
 export interface TodoItem {
   id: string;
@@ -15,9 +15,17 @@ interface UseTodoListResult {
   resetTodoList: () => void;
 }
 
-export function useTodoList(): UseTodoListResult {
-  const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
+type UseTodoListParams = {
+  initialTodoItems?: TodoItem[];
+};
+
+export function useTodoList({ initialTodoItems = [] }: UseTodoListParams = {}): UseTodoListResult {
+  const [todoItems, setTodoItems] = useState<TodoItem[]>(initialTodoItems);
   const [todoInput, setTodoInput] = useState("");
+
+  useEffect(() => {
+    setTodoItems(initialTodoItems);
+  }, [initialTodoItems]);
 
   const handleTodoInput = (value: string) => {
     setTodoInput(value);

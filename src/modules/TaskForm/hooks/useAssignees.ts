@@ -21,19 +21,27 @@ interface UseAssigneesResult {
   resetAssignees: () => void;
 }
 
-export function useAssignees(): UseAssigneesResult {
+type UseAssigneesParams = {
+  initialAssignedMembers?: AssignedMember[];
+};
+
+export function useAssignees({ initialAssignedMembers = [] }: UseAssigneesParams = {}): UseAssigneesResult {
   const currentUser = useAuthStore((state) => state.user);
   const allUsers = useUsersStore((state) => state.users);
   const loading = useUsersStore((state) => state.loading);
   const usersError = useUsersStore((state) => state.error);
   const loadUsers = useUsersStore((state) => state.loadUsers);
 
-  const [assignedMembers, setAssignedMembers] = useState<AssignedMember[]>([]);
+  const [assignedMembers, setAssignedMembers] = useState<AssignedMember[]>(initialAssignedMembers);
   const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
 
   useEffect(() => {
     loadUsers();
   }, [loadUsers]);
+
+  useEffect(() => {
+    setAssignedMembers(initialAssignedMembers);
+  }, [initialAssignedMembers]);
 
   const users = useMemo(
     () =>

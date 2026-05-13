@@ -1,6 +1,7 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useToast } from "../../../components/ui/ToastProvider";
 import { useCreateTask } from "../../Tasks/hooks/useCreateTask";
+import { useUpdateTask } from "../../Tasks/hooks/useUpdateTask";
 import type { AssignedMember } from "./useAssignees";
 import type { TodoItem } from "./useTodoList";
 import { usePriorityStore } from "../../Priority/store/priority.store";
@@ -16,6 +17,11 @@ interface UseTaskFormParams {
   assignedMembers: AssignedMember[];
   todoItems: TodoItem[];
   attachments: string[];
+  mode?: "create" | "edit";
+  taskId?: number;
+  initialFormData?: Partial<TaskFormData>;
+  initialStatusId?: number;
+  initialStartDate?: string | null;
   onSuccess: () => void;
 }
 
@@ -49,18 +55,38 @@ export function useTaskForm({
   assignedMembers,
   todoItems,
   attachments,
+  mode = "create",
+  taskId,
+  initialFormData,
+  initialStatusId,
+  initialStartDate,
   onSuccess,
 }: UseTaskFormParams): UseTaskFormResult {
   const toast = useToast();
-  const { createTask, isSubmitting, error } = useCreateTask();
+  const { createTask, isSubmitting: isCreating, error: createError } = useCreateTask();
+  const { updateTask, isSubmitting: isUpdating, error: updateError } = useUpdateTask();
   const priorities = usePriorityStore((state) => state.priorities);
 
   const [formData, setFormData] = useState<TaskFormData>({
-    title: "",
-    description: "",
-    priority: "Low",
-    dueDate: "",
+    title: initialFormData?.title ?? "",
+    description: initialFormData?.description ?? "",
+    priority: initialFormData?.priority ?? "Low",
+    dueDate: initialFormData?.dueDate ?? "",
   });
+
+  useEffect(() => {
+    setFormData({
+      title: initialFormData?.title ?? "",
+      description: initialFormData?.description ?? "",
+      priority: initialFormData?.priority ?? "Low",
+      dueDate: initialFormData?.dueDate ?? "",
+    });
+  }, [
+    initialFormData?.description,
+    initialFormData?.dueDate,
+    initialFormData?.priority,
+    initialFormData?.title,
+  ]);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -102,34 +128,53 @@ export function useTaskForm({
       (priority) => priority.name.trim().toLowerCase() === "low",
     );
     const priorityId = selectedPriority?.id ?? lowPriority?.id ?? 1;
-    const startDate = toApiDateTime(getTodayLocalDate(), "09:00:00");
+    const startDate = initialStartDate ?? toApiDateTime(getTodayLocalDate(), "09:00:00");
     const dueDate = toApiDateTime(formData.dueDate, "10:00:00");
+    const statusId = initialStatusId ?? DEFAULT_STATUS_ID;
 
     try {
-      await createTask({
+      const payload = {
         title,
         description: formData.description.trim(),
         priority_id: priorityId,
-        status_id: DEFAULT_STATUS_ID,
+        status_id: statusId,
         start_date: startDate,
         due_date: dueDate,
         users,
         todos,
         attachments,
-      });
+      };
 
-      setFormData({
-        title: "",
-        description: "",
-        priority: lowPriority?.name ?? priorities[0]?.name ?? "Low",
-        dueDate: "",
-      });
+      if (mode === "edit") {
+        if (!taskId) {
+          toast.error("Task update failed", "Missing task id");
+          return;
+        }
 
-      onSuccess();
-      toast.success("Task created", "The task has been created successfully.");
+        await updateTask(taskId, payload);
+        onSuccess();
+        toast.success("Task updated", "The task has been updated successfully.");
+      } else {
+        await createTask(payload);
+
+        setFormData({
+          title: "",
+          description: "",
+          priority: lowPriority?.name ?? priorities[0]?.name ?? "Low",
+          dueDate: "",
+        });
+
+        onSuccess();
+        toast.success("Task created", "The task has been created successfully.");
+      }
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not create task";
-      toast.error("Task creation failed", message);
+      const message =
+        err instanceof Error
+          ? err.message
+          : mode === "edit"
+            ? "Could not update task"
+            : "Could not create task";
+      toast.error(mode === "edit" ? "Task update failed" : "Task creation failed", message);
     }
   };
 
@@ -137,7 +182,7 @@ export function useTaskForm({
     formData,
     handleInputChange,
     handleSubmit,
-    isSubmitting,
-    error,
+    isSubmitting: mode === "edit" ? isUpdating : isCreating,
+    error: mode === "edit" ? updateError : createError,
   };
 }

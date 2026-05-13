@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import type { ReactNode } from "react";
 import DashboardPage from "../modules/Admin/pages/DashboardPage";
 import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
+import UpdateTaskPage from "../modules/Tasks/pages/UpdateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
 import ManageTasksPage from "../modules/ManageTasks/pages/ManageTasksPage";
@@ -61,6 +62,14 @@ export function AppRoutes() {
           element={
             <ProtectedRoute>
               <CreateTaskPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks/:taskId/edit"
+          element={
+            <ProtectedRoute>
+              <UpdateTaskPage />
             </ProtectedRoute>
           }
         />
