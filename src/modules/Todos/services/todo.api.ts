@@ -19,12 +19,11 @@ export const TodosAPI = {
    */
   getByIds: (todoIds: number[]) =>
     api.get<TodoDto[]>("/api/todo/id", {
-        
-      params: { todos_ids: todoIds },
+      params: { id: todoIds },
       paramsSerializer: {
         serialize: (params) => {
-          const ids = params.todos_ids as number[];
-          return ids.map((id) => `id=${encodeURIComponent(String(id))}`).join("&"); 
+          const ids = params.id as number[];
+          return ids.map((id) => `id=${encodeURIComponent(String(id))}`).join("&");
         },
       },
     }),

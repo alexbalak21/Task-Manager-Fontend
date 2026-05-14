@@ -99,15 +99,21 @@ export default function TaskFormContainer({
         lastFetchedTodoIdsKeyRef.current = requestKey;
         void (async () => {
           try {
+            console.log("Fetching todos with IDs:", todoIds);
             const response = await TodosAPI.getByIds(todoIds);
+            console.log("Fetched todos:", response.data);
             setFetchedTodos(response.data);
-          } catch {
+          } catch (error) {
+            console.error("Failed to fetch todos by IDs:", error);
             if (typeof task?.id === "number") {
               try {
+                console.log("Falling back to fetch todos by task ID:", task.id);
                 const fallbackResponse = await TodosAPI.getByTaskId(task.id);
+                console.log("Fetched todos (fallback):", fallbackResponse.data);
                 setFetchedTodos(fallbackResponse.data);
                 return;
-              } catch {
+              } catch (fallbackError) {
+                console.error("Failed to fetch todos by task ID:", fallbackError);
                 // Fall through to empty state if fallback also fails.
               }
             }
