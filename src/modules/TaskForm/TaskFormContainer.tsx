@@ -11,10 +11,12 @@ import { useTaskForm } from "./hooks/useTaskForm";
 import { useTodoList } from "./hooks/useTodoList";
 import { useAttachments } from "./hooks/useAttachments";
 import { useAssignees } from "./hooks/useAssignees";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { TaskDto } from "../Tasks/types/task.dto";
 import { useUsersStore } from "../Users/state/users.store";
 import { usePriorityStore } from "../Priority/store/priority.store";
+import { TodosAPI } from "../Todos/services/todo.api";
+import type { TodoDto } from "../Todos/types/todo.dto";
 
 type TaskFormContainerProps = {
   mode?: "create" | "edit";
@@ -41,12 +43,30 @@ const toTodoItems = (todos: unknown[] | undefined) => {
     return [];
   }
 
-  return todos
-    .filter((item): item is string => typeof item === "string")
-    .map((text, index) => ({
-      id: `todo-${index}-${text}`,
-      text,
-    }));
+  return todos.flatMap((item, index) => {
+    if (typeof item === "string") {
+      return [{
+        id: `todo-${index}-${item}`,
+        text: item,
+      }];
+    }
+
+    if (
+      typeof item === "object" &&
+      item !== null &&
+      "id" in item &&
+      "text" in item &&
+      typeof item.id === "number" &&
+      typeof item.text === "string"
+    ) {
+      return [{
+        id: `todo-${item.id}`,
+        text: item.text,
+      }];
+    }
+
+    return [];
+  });
 };
 
 const toAttachments = (attachments: unknown[] | undefined) => {
@@ -64,11 +84,53 @@ export default function TaskFormContainer({
 }: TaskFormContainerProps) {
   const allUsers = useUsersStore((state) => state.users);
   const priorities = usePriorityStore((state) => state.priorities);
+  const [fetchedTodos, setFetchedTodos] = useState<TodoDto[]>([]);
+  const lastFetchedTodoIdsKeyRef = useRef<string>("");
 
-  const initialTodoItems = useMemo(
-    () => toTodoItems(task?.todos as unknown[] | undefined),
-    [task?.todos],
-  );
+  useEffect(() => {
+    if (mode === "edit" && task?.todos && Array.isArray(task.todos)) {
+      const todoIds = task.todos.filter((id): id is number => typeof id === "number");
+      if (todoIds.length > 0) {
+        const requestKey = [...todoIds].sort((a, b) => a - b).join(",");
+        if (lastFetchedTodoIdsKeyRef.current === requestKey) {
+          return;
+        }
+
+        lastFetchedTodoIdsKeyRef.current = requestKey;
+        void (async () => {
+          try {
+            const response = await TodosAPI.getByIds(todoIds);
+            setFetchedTodos(response.data);
+          } catch {
+            if (typeof task?.id === "number") {
+              try {
+                const fallbackResponse = await TodosAPI.getByTaskId(task.id);
+                setFetchedTodos(fallbackResponse.data);
+                return;
+              } catch {
+                // Fall through to empty state if fallback also fails.
+              }
+            }
+
+            setFetchedTodos([]);
+          }
+        })();
+      } else {
+        lastFetchedTodoIdsKeyRef.current = "";
+        setFetchedTodos([]);
+      }
+    } else {
+      lastFetchedTodoIdsKeyRef.current = "";
+      setFetchedTodos([]);
+    }
+  }, [mode, task?.id, task?.todos]);
+
+  const initialTodoItems = useMemo(() => {
+    if (mode === "edit") {
+      return toTodoItems(fetchedTodos);
+    }
+    return toTodoItems(task?.todos as unknown[] | undefined);
+  }, [fetchedTodos, mode, task?.todos]);
 
   const initialAttachments = useMemo(
     () => toAttachments(task?.attachments as unknown[] | undefined),
