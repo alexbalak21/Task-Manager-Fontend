@@ -73,10 +73,10 @@ export default function Modal({
 			onClick={onClose}
 		>
 			<div
-				className={`${widthClassName} max-h-[94vh] overflow-hidden rounded-xl bg-[#f6f6f8] shadow-[0_20px_60px_rgba(0,0,0,0.18)]`}
+				className={`${widthClassName} max-h-[94vh] overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)]`}
 				onClick={(event) => event.stopPropagation()}
-			>
-				<header className="flex items-center justify-between border-b border-zinc-200 px-6 py-5 sm:px-8">
+				>
+					<header className="flex items-center justify-between px-6 py-5 sm:px-8">
 					<h2 className="text-2xl font-semibold text-zinc-900">{title}</h2>
 					<button
 						type="button"

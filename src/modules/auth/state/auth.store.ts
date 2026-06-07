@@ -6,7 +6,7 @@ type AuthUser = {
   name: string;
   email: string;
   role?: string;
-  profileImage?: string;
+  profileImage?: string | null;
 
 };
 
@@ -42,6 +42,7 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   isHydrating: boolean;
+  setUser: (user: AuthUser | null) => void;
 
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
@@ -56,6 +57,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   refreshToken: localStorage.getItem("refresh_token"),
   isHydrating: Boolean(localStorage.getItem("refresh_token")),
+	setUser: (user) => set({ user }),
 
   login: async (email, password) => {
     const res = await AuthAPI.login(email, password);
