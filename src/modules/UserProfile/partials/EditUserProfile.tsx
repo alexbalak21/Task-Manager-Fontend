@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "../../../components/ui/Button";
 import Modal from "../../../components/ui/Modal";
+import { useToast } from "../../../components/ui/ToastProvider";
 import Avatar from "../../Users/components/Avatar";
 import { useAuthStore } from "../../auth/state/auth.store";
 import { Pencil, Upload, X } from "lucide-react";
@@ -36,6 +37,7 @@ const getErrorMessage = (error: unknown, fallback: string) => {
 
 export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProps) {
 	const [showPasswordModal, setShowPasswordModal] = useState(false);
+	const toast = useToast();
 	const user = useAuthStore((state) => state.user);
 	const setUser = useAuthStore((state) => state.setUser);
 	const [name, setName] = useState("");
@@ -104,6 +106,7 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 			if (response.success && response.profileImage) {
 				setProfileImage(response.profileImage);
 				setUser({ ...user, profileImage: response.profileImage });
+				toast.success(response.message || "Profile image uploaded successfully");
 			} else {
 				throw new Error(response.message || "Failed to upload image");
 			}
