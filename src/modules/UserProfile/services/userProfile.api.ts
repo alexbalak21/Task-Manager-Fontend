@@ -62,12 +62,7 @@ export const uploadProfileImage = async (file: File): Promise<ProfileImageRespon
 		},
 	});
 
-	const data = response.data as ProfileImageResponse & { imageData?: string };
-	return {
-		success: Boolean(data.success),
-		message: data.message,
-		profileImage: data.profileImage ?? data.imageData,
-	};
+	return response.data as ProfileImageResponse;
 };
 
 export const deleteProfileImage = async (): Promise<{ success: boolean; message: string }> => {

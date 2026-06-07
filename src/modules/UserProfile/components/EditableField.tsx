@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState, type InputHTMLAttributes } from "react";
 import Input from "./Input";
 import { Check, Pencil, X } from "lucide-react";
 
 interface EditableFieldProps {
   label: string;
   value: string;
+  type?: InputHTMLAttributes<HTMLInputElement>["type"];
   onSave: (newValue: string) => Promise<void> | void;
 }
 
-export default function EditableField({ label, value, onSave }: EditableFieldProps) {
+export default function EditableField({ label, value, type = "text", onSave }: EditableFieldProps) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(value);
   const [saved, setSaved] = useState(false);
@@ -38,6 +39,7 @@ export default function EditableField({ label, value, onSave }: EditableFieldPro
         {editing ? (
           <div className="flex items-start gap-2 flex-1">
             <Input
+              type={type}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               className="flex-1"
@@ -45,12 +47,14 @@ export default function EditableField({ label, value, onSave }: EditableFieldPro
             />
             <div className="flex flex-row gap-1 items-start mt-2">
               <button
+                type="button"
                 onClick={handleSave}
                 className="p-1 rounded-md hover:bg-green-100"
               >
                 <Check className="h-5 w-5 text-green-600" />
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setDraft(value);
                   setEditing(false);
@@ -69,6 +73,7 @@ export default function EditableField({ label, value, onSave }: EditableFieldPro
               <Check className="h-5 w-5 text-green-600" />
             ) : (
               <button
+                type="button"
                 onClick={() => setEditing(true)}
                 className="p-1 rounded-md hover:bg-gray-100 ms-5"
               >

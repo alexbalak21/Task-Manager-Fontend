@@ -1,10 +1,11 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "../../../components/ui/Button";
-import Input from "../../../components/ui/Input";
 import Modal from "../../../components/ui/Modal";
 import Avatar from "../../Users/components/Avatar";
 import { useAuthStore } from "../../auth/state/auth.store";
 import { Pencil, Upload, X } from "lucide-react";
+import EditableField from "../components/EditableField";
 import UpdateUserPassword from "./UpdateUserPassword";
 import {
 	deleteProfileImage,
@@ -19,6 +20,13 @@ interface EditUserProfileProps {
 }
 
 const getErrorMessage = (error: unknown, fallback: string) => {
+	if (axios.isAxiosError(error)) {
+		const message = error.response?.data?.message;
+		if (typeof message === "string" && message.trim()) {
+			return message;
+		}
+	}
+
 	if (error instanceof Error && error.message) {
 		return error.message;
 	}
@@ -34,7 +42,6 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 	const [email, setEmail] = useState("");
 	const [profileImage, setProfileImage] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [success, setSuccess] = useState(false);
 	const [imageUploading, setImageUploading] = useState(false);
 	const [imageDeleting, setImageDeleting] = useState(false);
 
@@ -47,29 +54,18 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 		setEmail(user.email);
 		setProfileImage(user.profileImage ?? null);
 		setError(null);
-		setSuccess(false);
 	}, [isOpen, user]);
 
-	const handleProfileSave = async (event: React.FormEvent) => {
-		event.preventDefault();
-
+	const handleProfileFieldSave = async (payload: { name?: string; email?: string }) => {
 		if (!user) {
 			throw new Error("User information is not available yet");
 		}
 
 		setError(null);
-
-		try {
-			const updated = normalizeUserProfile(await updateCurrentUserProfile({ name, email }));
-			setUser({ ...user, ...updated });
-			setSuccess(true);
-			window.setTimeout(() => {
-				setSuccess(false);
-			}, 2000);
-		} catch (error) {
-			const message = getErrorMessage(error, "Failed to update profile");
-			setError(message);
-		}
+		const updated = normalizeUserProfile(await updateCurrentUserProfile(payload));
+		setUser({ ...user, ...updated });
+		setName(updated.name);
+		setEmail(updated.email);
 	};
 
 	const handleImageDelete = async () => {
@@ -133,7 +129,7 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title="Update Profile" hideFooter widthClassName="w-[96vw] max-w-3xl">
-			<form className="space-y-8" onSubmit={handleProfileSave}>
+			<div className="space-y-8">
 				<div className="flex justify-center">
 					<div className="relative group">
 						<Avatar name={name || user.name} profile_image={profileImage ?? undefined} size={96} />
@@ -148,6 +144,7 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 											const file = event.target.files?.[0];
 											if (file) {
 												void handleImageUpload(file);
+												event.target.value = "";
 											}
 										}}
 										disabled={imageUploading}
@@ -179,25 +176,22 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 					</div>
 				)}
 
-				{success && (
-					<div className="rounded-md bg-green-50 p-4 dark:bg-green-900">
-						<p className="text-sm font-medium text-green-800 dark:text-green-200">Your profile has been updated!</p>
-					</div>
-				)}
-
 				<div className="space-y-4">
-					<Input
+					<EditableField
 						label="Name"
+						type="text"
 						value={name}
-						onChange={(event) => setName(event.target.value)}
-						required
+						onSave={async (newValue) => {
+							await handleProfileFieldSave({ name: newValue });
+						}}
 					/>
-					<Input
+					<EditableField
 						label="Email"
 						type="email"
 						value={email}
-						onChange={(event) => setEmail(event.target.value)}
-						required
+						onSave={async (newValue) => {
+							await handleProfileFieldSave({ email: newValue });
+						}}
 					/>
 
 					<div className="flex items-center gap-4">
@@ -219,11 +213,10 @@ export default function EditUserProfile({ isOpen, onClose }: EditUserProfileProp
 					<Button type="button" variant="secondary" onClick={onClose}>
 						Cancel
 					</Button>
-					<Button type="submit">Save Changes</Button>
 				</div>
 
 				{showPasswordModal && <UpdateUserPassword isOpen={showPasswordModal} onClose={() => setShowPasswordModal(false)} />}
-			</form>
+			</div>
 		</Modal>
 	);
 }
