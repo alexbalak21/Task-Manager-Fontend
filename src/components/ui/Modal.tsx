@@ -98,7 +98,7 @@ export default function Modal({
 					<footer className="flex items-center justify-end gap-4 px-6 pb-6 sm:px-8 sm:pb-8">
 						<button
 							type="button"
-							className="rounded-lg border border-zinc-200 bg-zinc-100 px-7 py-2.5 text-sm font-semibold uppercase tracking-wide text-zinc-700 transition-colors hover:bg-zinc-200"
+							className="mt-4 rounded-lg border border-zinc-200 bg-zinc-100 px-7 py-2.5 text-sm font-semibold uppercase tracking-wide text-zinc-700 transition-colors hover:bg-zinc-200"
 							onClick={handleCancel}
 						>
 							{cancelText}
@@ -106,7 +106,7 @@ export default function Modal({
 						<button
 							type="button"
 							disabled={doneDisabled || doneLoading}
-							className="rounded-lg bg-primary-500 px-7 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-primary-550 disabled:cursor-not-allowed disabled:opacity-55"
+							className="mt-4 rounded-lg bg-primary-500 px-7 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-primary-550 disabled:cursor-not-allowed disabled:opacity-55"
 							onClick={onDone}
 						>
 							{doneLoading ? "Saving..." : doneText}

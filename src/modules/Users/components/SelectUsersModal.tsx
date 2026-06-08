@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check } from "lucide-react";
 import Modal from "../../../components/ui/Modal";
 
@@ -74,7 +74,7 @@ export default function SelectUsersModal({
 						return (
 							<label
 								key={user.id}
-								className="flex cursor-pointer items-center justify-between gap-4 border-b border-zinc-200 py-5"
+								className="flex cursor-pointer items-center justify-between gap-4 border-b border-zinc-200 py-5 last:border-b-0"
 							>
 								<div className="flex min-w-0 items-center gap-4">
 									<Avatar

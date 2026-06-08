@@ -52,6 +52,7 @@ export default function Sidebar() {
 				name={user?.name || ""}
 				email={user?.email || ""}
 				profile_image={user?.profileImage || ""}
+				role={user?.role}
 			/>
 			<SidebarNavigation items={items} />
 		</aside>

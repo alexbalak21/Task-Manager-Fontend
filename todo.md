@@ -1,6 +1,4 @@
-# Tasks
-- [X] Create an Avatar reusable component from SidebarProfile
-- [X] Create a Manage Task page 
-- [ ] Create and implement a Task Details page 
-- [ ] Implement a Task Update Page witch uses the same component as CreateTask
+# Front end tasks
 
+Add delete Button to Update Task page and confirm Modal so I can delete tasks
+Implement Roles Admin & User for now admin and user has the same pages
