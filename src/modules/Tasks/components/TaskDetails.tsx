@@ -9,7 +9,7 @@ type TaskAssignee = {
 type TaskChecklistItem = {
 	id: string
 	text: string
-	done: boolean
+	state: 'pending' | 'in_progress' | 'completed'
 }
 
 type TaskAttachment = {
@@ -26,6 +26,8 @@ type TaskDetailsProps = {
 	assignees?: TaskAssignee[]
 	checklist?: TaskChecklistItem[]
 	attachments?: TaskAttachment[]
+	onChecklistItemToggle?: (id: string) => void
+	onEdit?: () => void
 }
 
 const DEFAULT_ASSIGNEES: TaskAssignee[] = [
@@ -50,11 +52,11 @@ const DEFAULT_ASSIGNEES: TaskAssignee[] = [
 ]
 
 const DEFAULT_CHECKLIST: TaskChecklistItem[] = [
-	{ id: '1', text: 'Create wireframe', done: true },
-	{ id: '2', text: 'Design header with navigation', done: true },
-	{ id: '3', text: 'Build hero section with call-to-action', done: false },
-	{ id: '4', text: 'Add responsive card layout for services', done: false },
-	{ id: '5', text: 'Implement footer with contact details', done: false },
+	{ id: '1', text: 'Create wireframe', state: 'completed' },
+	{ id: '2', text: 'Design header with navigation', state: 'completed' },
+	{ id: '3', text: 'Build hero section with call-to-action', state: 'in_progress' },
+	{ id: '4', text: 'Add responsive card layout for services', state: 'pending' },
+	{ id: '5', text: 'Implement footer with contact details', state: 'pending' },
 ]
 
 const DEFAULT_ATTACHMENTS: TaskAttachment[] = [
@@ -68,6 +70,18 @@ function getInitials(name: string): string {
 	return `${parts[0][0] ?? ''}${parts[1][0] ?? ''}`.toUpperCase()
 }
 
+function getChecklistMark(state: TaskChecklistItem['state']): string {
+	if (state === 'completed') {
+		return '[v]'
+	}
+
+	if (state === 'in_progress') {
+		return '[-]'
+	}
+
+	return '[ ]'
+}
+
 export default function TaskDetails({
 	title = 'Design Homepage',
 	description =
@@ -78,14 +92,29 @@ export default function TaskDetails({
 	assignees = DEFAULT_ASSIGNEES,
 	checklist = DEFAULT_CHECKLIST,
 	attachments = DEFAULT_ATTACHMENTS,
+	onChecklistItemToggle,
+	onEdit,
 }: TaskDetailsProps) {
 	return (
 		<article className="w-full rounded-xl border border-zinc-200 bg-white p-8 shadow-sm">
 			<header className="mb-6 flex items-start justify-between gap-4">
-				<h2 className="text-4xl font-semibold tracking-[-0.02em] text-zinc-900">{title}</h2>
-				<span className="rounded-lg bg-cyan-100 px-4 py-2 text-lg font-semibold text-cyan-700">
-					{status}
-				</span>
+				<div>
+					<h2 className="text-4xl font-semibold tracking-[-0.02em] text-zinc-900">{title}</h2>
+				</div>
+				<div className="flex items-center gap-3">
+					{onEdit ? (
+						<button
+							type="button"
+							onClick={onEdit}
+							className="rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 text-base font-semibold text-zinc-800 transition-colors hover:bg-zinc-100"
+						>
+							Edit Task
+						</button>
+					) : null}
+					<span className="rounded-lg bg-cyan-100 px-4 py-2 text-lg font-semibold text-cyan-700">
+						{status}
+					</span>
+				</div>
 			</header>
 
 			<section className="mb-8">
@@ -134,15 +163,17 @@ export default function TaskDetails({
 				<h3 className="mb-4 text-2xl font-semibold text-zinc-700">Todo Checklist</h3>
 				<ul className="space-y-5">
 					{checklist.map(item => (
-						<li key={item.id} className="flex items-center gap-4 text-3xl text-zinc-900">
-							<input
-								type="checkbox"
-								checked={item.done}
-								readOnly
-								className="h-7 w-7 rounded border-zinc-300 accent-blue-600"
+						<li key={item.id} className="flex items-center gap-4 text-2xl text-zinc-900">
+							<button
+								type="button"
+								onClick={() => onChecklistItemToggle?.(item.id)}
+								disabled={!onChecklistItemToggle || item.state === 'completed'}
 								aria-label={item.text}
-							/>
-							<span>{item.text}</span>
+								className="inline-flex min-w-16 items-center justify-center rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1 font-mono text-xl font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 disabled:cursor-default disabled:opacity-100"
+							>
+								{getChecklistMark(item.state)}
+							</button>
+							<span className={item.state === 'completed' ? 'text-zinc-500 line-through' : ''}>{item.text}</span>
 						</li>
 					))}
 				</ul>

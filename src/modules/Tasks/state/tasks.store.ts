@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { TasksAPI, type TaskDto } from "../services/tasks.api";
+import { TasksAPI } from "../services/tasks.api";
+import type { TaskDto } from "../types/task.dto";
 
 type TasksState = {
   tasks: TaskDto[];

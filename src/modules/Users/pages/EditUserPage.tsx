@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useUsersStore } from "../state/users.store";
+import type { UserDto } from "../services/users.api";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import Modal from "../../../components/ui/Modal";
@@ -15,13 +16,14 @@ export default function EditUserPage() {
 			id: 1,
 			name: "Mike",
 			email: "mike@timetoprogram.com",
-			profileImage: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=160&q=80",
-		};
+			role: "user",
+			profile_image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=160&q=80",
+		} satisfies UserDto;
 	}
 	const updateUser = useUsersStore((state) => state.updateUser);
 	const [name, setName] = useState(user?.name || "");
 	const [email, setEmail] = useState(user?.email || "");
-	const [profileImage, setProfileImage] = useState(user?.profileImage || "");
+	const [profileImage, setProfileImage] = useState(user?.profile_image || "");
 	const [showPasswordModal, setShowPasswordModal] = useState(false);
 	const [newPassword, setNewPassword] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,7 +52,7 @@ export default function EditUserPage() {
 			id: user.id,
 			name,
 			email,
-			profileImage,
+			profile_image: profileImage,
 		});
 		setIsSubmitting(false);
 		// Optionally show a toast here
@@ -66,7 +68,7 @@ export default function EditUserPage() {
 	return (
 		<div className="max-w-xl mx-auto p-8">
 			<h2 className="text-2xl font-bold mb-6">Edit User</h2>
-            				<div>
+			<div>
 					<label className="block mb-2 font-medium">Profile Image</label>
 					{profileImage ? (
 						<div className="mb-3 flex flex-col items-center gap-4">

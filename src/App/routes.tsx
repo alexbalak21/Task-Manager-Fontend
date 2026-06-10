@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import type { ReactNode } from "react";
 import DashboardPage from "../modules/Admin/pages/DashboardPage";
 import CreateTaskPage from "../modules/Tasks/pages/CreateTaskPage";
+import TaskDetailsPage from "../modules/Tasks/pages/TaskDetailsPage";
 import UpdateTaskPage from "../modules/Tasks/pages/UpdateTaskPage";
 import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
@@ -36,6 +37,26 @@ function RootRoute() {
   return <Navigate to={accessToken ? "/home" : "/login"} replace />;
 }
 
+function AdminRoute({ children }: { children: ReactNode }) {
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isHydrating = useAuthStore((state) => state.isHydrating);
+  const role = useAuthStore((state) => state.user?.role?.toLowerCase());
+
+  if (isHydrating) {
+    return <div className="m-8">Loading session...</div>;
+  }
+
+  if (!accessToken) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (role !== "admin") {
+    return <Navigate to="/tasks" replace />;
+  }
+
+  return <>{children}</>;
+}
+
 export function AppRoutes() {
   return (
     <BrowserRouter>
@@ -58,27 +79,35 @@ export function AppRoutes() {
           }
         />
         <Route
-          path="/tasks/create"
+          path="/tasks/:taskId"
           element={
             <ProtectedRoute>
-              <CreateTaskPage />
+              <TaskDetailsPage />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks/create"
+          element={
+            <AdminRoute>
+              <CreateTaskPage />
+            </AdminRoute>
           }
         />
         <Route
           path="/tasks/:taskId/edit"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <UpdateTaskPage />
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
         <Route
           path="/team-members"
           element={
-            <ProtectedRoute>
+            <AdminRoute>
               <TeamMemebersPage />  
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
         <Route path="/login" element={<LoginPage />} />

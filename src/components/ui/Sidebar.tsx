@@ -14,6 +14,7 @@ export default function Sidebar() {
 	const navigate = useNavigate();
 	const logout = useAuthStore((state) => state.logout);
 	const user = useAuthStore((state) => state.user);
+	const isAdmin = user?.role?.toLowerCase() === "admin";
 
 	const items: NavItem[] = [
 		{
@@ -26,16 +27,20 @@ export default function Sidebar() {
 			icon: ClipboardCheck,
 			to: "/tasks",
 		},
-		{
-			label: "Create Task",
-			icon: SquarePlus,
-			to: "/tasks/create",
-		},
-		{
-			label: "Team Members",
-			icon: Users,
-			to: "/team-members",
-		},
+		...(isAdmin
+			? [
+				{
+					label: "Create Task",
+					icon: SquarePlus,
+					to: "/tasks/create",
+				},
+				{
+					label: "Team Members",
+					icon: Users,
+					to: "/team-members",
+				},
+			  ]
+			: []),
 		{
 			label: "Logout",
 			icon: LogOut,
