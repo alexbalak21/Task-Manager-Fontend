@@ -28,9 +28,7 @@ export default function TaskChecklist({ checklist, onToggle }: Props) {
               <MultiStateCheckbox
                 state={mapToCheckboxState(item.state)}
                 onChange={() => {
-                  if (!onToggle) return
-                  if (item.state === 'completed') return
-                  onToggle(item.id)
+                  onToggle?.(item.id)
                 }}
               />
             </div>

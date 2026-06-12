@@ -114,6 +114,9 @@ The controller registers two blueprints:
 - Path params:
 	- `todo_id` (integer)
 - Body: none
+- Frontend behavior:
+	- If a user clicks a completed todo in the task detail view, the UI opens a confirmation modal before calling this endpoint.
+	- Choosing `Yes` reopens the todo; choosing `No` cancels the action.
 - Success:
 	- `200 OK`
 	- Updated todo DTO object with `in_progress: true`, `completed: false`, `completed_at: null`

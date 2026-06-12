@@ -50,6 +50,13 @@ export const TodosAPI = {
     api.put<TodoDto>(`/api/todos/${todoId}`, data),
 
   /**
+   * Reopen a completed todo
+   * @param todoId - Todo ID
+   */
+  reopen: (todoId: number) =>
+    api.patch<TodoDto>(`/api/todos/${todoId}/reopen`),
+
+  /**
    * Delete a todo (Admin only)
    * @param todoId - Todo ID
    */

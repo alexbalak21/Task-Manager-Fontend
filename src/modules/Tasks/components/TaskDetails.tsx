@@ -1,4 +1,3 @@
-import { ExternalLink } from 'lucide-react'
 import TaskChecklist from './TaskChecklist'
 import TaskAttachments from './TaskAttachments'
 
@@ -70,12 +69,6 @@ function getInitials(name: string): string {
 	const parts = name.trim().split(/\s+/)
 	if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
 	return `${parts[0][0] ?? ''}${parts[1][0] ?? ''}`.toUpperCase()
-}
-
-function mapToCheckboxState(state: TaskChecklistItem['state']) {
-	if (state === 'completed') return 'completed'
-	if (state === 'in_progress') return 'in-progress'
-	return 'not-started'
 }
 
 export default function TaskDetails({

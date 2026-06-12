@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import AppShellLayout from "../../../layouts/AppShellLayout";
+import Modal from "../../../components/ui/Modal";
 import { useAuthStore } from "../../auth/state/auth.store";
 import TaskDetails from "../components/TaskDetails";
 import { useTasksStore } from "../state/tasks.store";
@@ -56,6 +57,7 @@ export default function TaskDetailsPage() {
 	const [todosLoading, setTodosLoading] = useState(false);
 	const [todosError, setTodosError] = useState<string | null>(null);
 	const [savingTodoId, setSavingTodoId] = useState<number | null>(null);
+	const [reopenTodo, setReopenTodo] = useState<TodoDto | null>(null);
 
 	useEffect(() => {
 		if (!isValidTaskId) {
@@ -170,6 +172,7 @@ export default function TaskDetailsPage() {
 
 		const currentState = getTodoState(currentTodo);
 		if (currentState === "completed") {
+			setReopenTodo(currentTodo);
 			return;
 		}
 
@@ -197,6 +200,38 @@ export default function TaskDetailsPage() {
 		} catch {
 			setTodos((prev) => prev.map((todo) => (todo.id === currentTodo.id ? currentTodo : todo)));
 			setTodosError("Could not update this todo.");
+		} finally {
+			setSavingTodoId(null);
+		}
+	};
+
+	const handleReopenTodo = async () => {
+		if (!reopenTodo) {
+			return;
+		}
+
+		const currentTodo = reopenTodo;
+		setReopenTodo(null);
+		setSavingTodoId(currentTodo.id);
+		setTodos((prev) =>
+			prev.map((todo) =>
+				todo.id === currentTodo.id
+					? {
+						...todo,
+						in_progress: true,
+						completed: false,
+						completed_at: null,
+					}
+					: todo,
+			),
+		);
+
+		try {
+			const response = await TodosAPI.reopen(currentTodo.id);
+			setTodos((prev) => prev.map((todo) => (todo.id === currentTodo.id ? response.data : todo)));
+		} catch {
+			setTodos((prev) => prev.map((todo) => (todo.id === currentTodo.id ? currentTodo : todo)));
+			setTodosError("Could not reopen this todo.");
 		} finally {
 			setSavingTodoId(null);
 		}
@@ -240,6 +275,20 @@ export default function TaskDetailsPage() {
 				{savingTodoId ? (
 					<p className="mt-4 text-sm text-zinc-500">Saving todo {savingTodoId}...</p>
 				) : null}
+
+				<Modal
+					isOpen={Boolean(reopenTodo)}
+					title="Reopen todo?"
+					onClose={() => setReopenTodo(null)}
+					onCancel={() => setReopenTodo(null)}
+					onDone={handleReopenTodo}
+					cancelText="No"
+					doneText="Yes"
+				>
+					<p className="text-lg text-zinc-700">
+						This todo is already completed. Do you want to put it back in progress?
+					</p>
+				</Modal>
 			</section>
 		</AppShellLayout>
 	);
