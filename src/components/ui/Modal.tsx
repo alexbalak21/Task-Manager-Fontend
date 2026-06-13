@@ -14,8 +14,16 @@ type ModalProps = {
 	doneDisabled?: boolean;
 	doneLoading?: boolean;
 	hideFooter?: boolean;
+	size?: "sm" | "md" | "lg" | "xl";
 	widthClassName?: string;
 	contentClassName?: string;
+};
+
+const sizeClassNames: Record<NonNullable<ModalProps["size"]>, string> = {
+	sm: "w-[92vw] max-w-md",
+	md: "w-[94vw] max-w-2xl",
+	lg: "w-[96vw] max-w-4xl",
+	xl: "w-[98vw] max-w-6xl",
 };
 
 export default function Modal({
@@ -30,7 +38,8 @@ export default function Modal({
 	doneDisabled = false,
 	doneLoading = false,
 	hideFooter = false,
-	widthClassName = "w-[96vw] max-w-4xl",
+	size = "lg",
+	widthClassName,
 	contentClassName = "",
 }: ModalProps) {
 	useEffect(() => {
@@ -73,7 +82,7 @@ export default function Modal({
 			onClick={onClose}
 		>
 			<div
-				className={`${widthClassName} max-h-[94vh] overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)]`}
+				className={`${widthClassName ?? sizeClassNames[size]} max-h-[94vh] overflow-hidden rounded-xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)]`}
 				onClick={(event) => event.stopPropagation()}
 				>
 					<header className="flex items-center justify-between px-6 py-5 sm:px-8">

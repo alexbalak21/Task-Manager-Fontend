@@ -282,6 +282,7 @@ export default function TaskDetailsPage() {
 					onClose={() => setReopenTodo(null)}
 					onCancel={() => setReopenTodo(null)}
 					onDone={handleReopenTodo}
+					size="sm"
 					cancelText="No"
 					doneText="Yes"
 				>
