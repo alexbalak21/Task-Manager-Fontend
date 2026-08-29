@@ -2,6 +2,7 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useToast } from "../../../components/ui/ToastProvider";
 import { useCreateTask } from "../../Tasks/hooks/useCreateTask";
 import { useUpdateTask } from "../../Tasks/hooks/useUpdateTask";
+import { UserTasksAPI } from "../../UserTasks/services/userTasks.api";
 import type { AssignedMember } from "./useAssignees";
 import type { TodoItem } from "./useTodoList";
 import { usePriorityStore } from "../../Priority/store/priority.store";
@@ -112,10 +113,6 @@ export function useTaskForm({
       return;
     }
 
-    const users = assignedMembers
-      .map((member) => toNumericUserId(member.id))
-      .filter((id): id is number => id !== null);
-
     const todos = todoItems
       .map((item) => item.text.trim())
       .filter((todo) => todo.length > 0);
@@ -140,7 +137,6 @@ export function useTaskForm({
         status_id: statusId,
         start_date: startDate,
         due_date: dueDate,
-        users,
         todos,
         attachments,
       };
@@ -155,7 +151,20 @@ export function useTaskForm({
         onSuccess();
         toast.success("Task updated", "The task has been updated successfully.");
       } else {
-        await createTask(payload);
+        const createdTask = await createTask(payload);
+
+        if (assignedMembers.length > 0) {
+          await Promise.all(
+            assignedMembers.map((member) => {
+              const userId = toNumericUserId(member.id);
+              if (userId === null) {
+                return Promise.resolve();
+              }
+
+              return UserTasksAPI.assignUserToTask(userId, createdTask.id);
+            }),
+          );
+        }
 
         setFormData({
           title: "",

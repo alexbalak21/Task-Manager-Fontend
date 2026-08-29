@@ -212,7 +212,11 @@ export default function TaskFormContainer({
     removeAssignedMember,
     handleSelectMembers,
     resetAssignees,
-  } = useAssignees({ initialAssignedMembers });
+  } = useAssignees({
+    initialAssignedMembers,
+    mode,
+    taskId: task?.id,
+  });
 
   // -------------------------
   // FORM HOOK

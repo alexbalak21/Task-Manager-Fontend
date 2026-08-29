@@ -1,5 +1,7 @@
 import TaskChecklist from './TaskChecklist'
 import TaskAttachments from './TaskAttachments'
+import StatusChip from '../../TaskCard/components/StatusChip'
+import PriorityChip from '../../TaskCard/components/PriorityChip'
 
 type TaskAssignee = {
 	id: string
@@ -24,6 +26,7 @@ type TaskDetailsProps = {
 	priority?: string
 	dueDate?: string
 	status?: string
+	statusColor?: string
 	assignees?: TaskAssignee[]
 	checklist?: TaskChecklistItem[]
 	attachments?: TaskAttachment[]
@@ -31,39 +34,7 @@ type TaskDetailsProps = {
 	onEdit?: () => void
 }
 
-const DEFAULT_ASSIGNEES: TaskAssignee[] = [
-	{
-		id: '1',
-		name: 'Nina Patel',
-		avatarUrl:
-			'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80',
-	},
-	{
-		id: '2',
-		name: 'Samuel Reed',
-		avatarUrl:
-			'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
-	},
-	{
-		id: '3',
-		name: 'Ava Brooks',
-		avatarUrl:
-			'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=80',
-	},
-]
-
-const DEFAULT_CHECKLIST: TaskChecklistItem[] = [
-	{ id: '1', text: 'Create wireframe', state: 'completed' },
-	{ id: '2', text: 'Design header with navigation', state: 'completed' },
-	{ id: '3', text: 'Build hero section with call-to-action', state: 'in_progress' },
-	{ id: '4', text: 'Add responsive card layout for services', state: 'pending' },
-	{ id: '5', text: 'Implement footer with contact details', state: 'pending' },
-]
-
-const DEFAULT_ATTACHMENTS: TaskAttachment[] = [
-	{ id: '1', url: 'https://react.dev/' },
-	{ id: '2', url: 'https://tailwindcss.com/docs/background-image' },
-]
+// Dummy data removed — component now uses empty defaults
 
 function getInitials(name: string): string {
 	const parts = name.trim().split(/\s+/)
@@ -72,15 +43,15 @@ function getInitials(name: string): string {
 }
 
 export default function TaskDetails({
-	title = 'Design Homepage',
-	description =
-		'Create a clean and modern homepage layout using Tailwind CSS. Ensure the design is responsive and optimized for mobile devices. Focus on intuitive navigation and clear CTAs. Incorporate brand colors and typography guidelines',
-	priority = 'High',
-	dueDate = '31st Mar 2025',
-	status = 'In Progress',
-	assignees = DEFAULT_ASSIGNEES,
-	checklist = DEFAULT_CHECKLIST,
-	attachments = DEFAULT_ATTACHMENTS,
+	title = '',
+	description = '',
+	priority = '',
+	dueDate = '',
+	status = '',
+	statusColor,
+	assignees = [],
+	checklist = [],
+	attachments = [],
 	onChecklistItemToggle,
 	onEdit,
 }: TaskDetailsProps) {
@@ -100,15 +71,13 @@ export default function TaskDetails({
 							Edit Task
 						</button>
 					) : null}
-					<span className="rounded-lg bg-cyan-100 px-4 py-2 text-lg font-semibold text-cyan-700">
-						{status}
-					</span>
+					<StatusChip name={status} color={statusColor} />
 				</div>
 			</header>
 
 			<section className="mb-8">
 				<h3 className="mb-2 text-xl font-semibold text-zinc-600">Description</h3>
-				<p className="max-w-[100ch] text-[1.95rem] leading-relaxed text-zinc-800 sm:text-3xl">
+				<p className="max-w-[100ch] text-lg leading-relaxed text-zinc-800 border border-zinc-200 rounded-lg p-4 h-52	">
 					{description}
 				</p>
 			</section>
@@ -116,7 +85,7 @@ export default function TaskDetails({
 			<section className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
 				<div>
 					<h3 className="mb-1 text-xl font-semibold text-zinc-600">Priority</h3>
-					<p className="text-3xl font-semibold text-zinc-900">{priority}</p>
+					<PriorityChip name={priority} />
 				</div>
 				<div>
 					<h3 className="mb-1 text-xl font-semibold text-zinc-600">Due Date</h3>

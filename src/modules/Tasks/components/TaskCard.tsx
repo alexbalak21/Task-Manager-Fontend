@@ -1,5 +1,5 @@
 import { Paperclip } from "lucide-react";
-import Avatar from "../../Users/components/Avatar";
+import AvatarContainer from "./AvatarContainer";
 import PriorityChip from "../../TaskCard/components/PriorityChip";
 import StatusChip from "../../TaskCard/components/StatusChip";
 
@@ -105,16 +105,7 @@ export default function TaskCard({
 			</section>
 
 			<footer className="mt-5 flex items-center justify-between">
-				<div className="flex items-center">
-					{assignees.map((assignee, index) => (
-						<Avatar
-							key={index}
-							name={assignee.name}
-							profile_image={assignee.profile_image}
-							size={40}
-						/>
-					))}
-				</div>
+				<AvatarContainer assignees={assignees} size={40} />
 
 				<span className="inline-flex items-center gap-2 rounded-xl bg-[#eef2ff] px-3 py-2 text-[#5065c8]">
 					<Paperclip size={18} strokeWidth={2.2} />

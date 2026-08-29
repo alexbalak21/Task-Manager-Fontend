@@ -1,0 +1,58 @@
+Add the missing task-user assignment routes to the frontend API layer and use them when assigning/removing users from a task.
+
+Problem:
+- The app currently sends a task update request with a `users` array inside `PUT /api/tasks/:id`.
+- This does not match the backend contract.
+- The backend expects separate assignment endpoints for task-user relationships.
+
+Required API contract:
+- POST /api/user-tasks/assign
+  Body:
+  {
+    "user_id": 2,
+    "task_id": 7
+  }
+
+- POST /api/user-tasks/unassign
+  Body:
+  {
+    "user_id": 2,
+    "task_id": 7
+  }
+
+Also supported by the project docs:
+- GET /api/user-tasks/task/:task_id
+- GET /api/user-tasks/user/:user_id
+
+Project context:
+- This frontend project is already using a centralized API wrapper in src/services/api.ts.
+- Existing task APIs are in src/modules/Tasks/services/tasks.api.ts.
+- The task form currently builds a `users` array and includes it in the task payload in src/modules/TaskForm/hooks/useTaskForm.ts.
+- That is the wrong API shape for user assignment.
+
+What to change:
+1. Create/extend a user-task API service in the task/user assignment domain.
+2. Add methods like:
+   - assignUserToTask(userId, taskId)
+   - unassignUserFromTask(userId, taskId)
+   - getUsersByTask(taskId)
+   - getTasksByUser(userId)
+3. Use the dedicated user-task routes when selecting or removing assigned users in the task form.
+4. Do NOT rely on `users` inside `PUT /api/tasks/:id` for assignment updates.
+5. Keep task update requests for normal task fields only: title, description, priority_id, status_id, start_date, due_date, todos, attachments.
+
+Implementation notes:
+- Use `api.post(...)` and `api.get(...)` with the same auth pattern already used elsewhere in the project.
+- Keep the backend requests minimal and consistent with the existing project style.
+- If there is already an API helper file for user-task operations, extend it instead of creating a duplicate pattern.
+
+Important:
+- The backend assignment endpoints must be used for adding/removing users from tasks.
+- The `users` field in a task update payload is not the correct API contract for this feature.
+
+Expected result:
+- When a user is added to a task from the modal, the app should call POST /api/user-tasks/assign.
+- When a user is removed, the app should call POST /api/user-tasks/unassign.
+- The task details page should continue to read `task.users` from the task DTO for display purposes.
+
+Do not create a brand new architecture. Keep changes aligned with current code patterns and project structure.

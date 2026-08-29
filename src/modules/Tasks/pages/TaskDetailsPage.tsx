@@ -4,6 +4,7 @@ import AppShellLayout from "../../../layouts/AppShellLayout";
 import Modal from "../../../components/ui/Modal";
 import { useAuthStore } from "../../auth/state/auth.store";
 import TaskDetails from "../components/TaskDetails";
+import { useStatusStore } from "../state/status.store";
 import { useTasksStore } from "../state/tasks.store";
 import { TodosAPI } from "../../Todos/services/todo.api";
 import type { TodoDto } from "../../Todos/types/todo.dto";
@@ -59,6 +60,9 @@ export default function TaskDetailsPage() {
 	const [savingTodoId, setSavingTodoId] = useState<number | null>(null);
 	const [reopenTodo, setReopenTodo] = useState<TodoDto | null>(null);
 
+	const statuses = useStatusStore((state) => state.statuses);
+	const loadStatuses = useStatusStore((state) => state.loadStatuses);
+
 	useEffect(() => {
 		if (!isValidTaskId) {
 			return;
@@ -66,6 +70,10 @@ export default function TaskDetailsPage() {
 
 		void loadTaskById(parsedTaskId);
 	}, [isValidTaskId, loadTaskById, parsedTaskId]);
+
+	useEffect(() => {
+		void loadStatuses();
+	}, [loadStatuses]);
 
 	useEffect(() => {
 		if (!task?.todos?.length) {
@@ -240,15 +248,6 @@ export default function TaskDetailsPage() {
 	return (
 		<AppShellLayout>
 			<section className="p-8 lg:p-6">
-				<div className="mb-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-					<p className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-500">
-						{isAdmin ? "Admin task view" : "User task view"}
-					</p>
-					<p className="mt-2 text-lg text-zinc-600">
-						Click a todo once to mark it as in progress, then click it again to mark it done.
-					</p>
-				</div>
-
 				{todosError ? (
 					<div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
 						{todosError}
@@ -259,18 +258,26 @@ export default function TaskDetailsPage() {
 					<div className="mb-4 rounded-lg bg-white p-6 shadow-sm">Loading todo checklist...</div>
 				) : null}
 
-				<TaskDetails
-					title={task.title}
-					description={task.description ?? "No description provided."}
-					priority={`Priority #${task.priority_id}`}
-					status={`Status #${task.status_id}`}
-					dueDate={task.due_date ?? "No due date"}
-					assignees={[]}
-					checklist={checklist}
-					attachments={[]}
-					onChecklistItemToggle={handleToggleTodo}
-					onEdit={isAdmin ? () => navigate(`/tasks/${task.id}/edit`) : undefined}
-				/>
+				{(() => {
+					const statusObj = statuses.find((s) => s.id === task.status_id);
+					const statusName = statusObj?.name ?? `Status #${task.status_id}`;
+					const statusColor = statusObj?.color ?? undefined;
+					return (
+						<TaskDetails
+							title={task.title}
+							description={task.description ?? "No description provided."}
+							priority={`Priority #${task.priority_id}`}
+							status={statusName}
+							statusColor={statusColor}
+							dueDate={task.due_date ?? "No due date"}
+							assignees={[]}
+							checklist={checklist}
+							attachments={[]}
+							onChecklistItemToggle={handleToggleTodo}
+							onEdit={isAdmin ? () => navigate(`/tasks/${task.id}/edit`) : undefined}
+						/>
+					);
+				})()}
 
 				{savingTodoId ? (
 					<p className="mt-4 text-sm text-zinc-500">Saving todo {savingTodoId}...</p>
