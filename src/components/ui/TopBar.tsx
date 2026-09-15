@@ -39,6 +39,13 @@ export default function TopBar({ title = "Task Manager" }: TopBarProps) {
 		setShowEditModal(true);
 	};
 
+	const role = user?.role?.toLowerCase();
+	const roleLabel = role === "admin" ? "Admin" : role === "manager" ? "Manager" : null;
+	const roleBadgeClass =
+		role === "admin"
+			? "bg-violet-100 text-violet-700"
+			: "bg-blue-100 text-blue-700";
+
 	return (
 		<header className="h-20 w-full border-b-2 border-zinc-100 bg-white">
 			<div className="flex h-full items-center justify-between px-8 sm:px-12 lg:px-16">
@@ -53,6 +60,7 @@ export default function TopBar({ title = "Task Manager" }: TopBarProps) {
 						className="flex items-center gap-2 rounded-full p-1 transition-colors hover:bg-zinc-100"
 					>
 						<Avatar name={user?.name} profile_image={user?.profileImage} size={40} />
+						
 						<ChevronDown
 							size={18}
 							className={`mr-1 text-[#4a4a4a] transition-transform ${isMenuOpen ? "rotate-180" : ""}`}
@@ -62,7 +70,16 @@ export default function TopBar({ title = "Task Manager" }: TopBarProps) {
 					{isMenuOpen && (
 						<div className="absolute right-0 top-[calc(100%+8px)] z-50 w-56 overflow-hidden rounded-lg border border-zinc-100 bg-white shadow-lg">
 							<div className="border-b border-zinc-100 px-4 py-3">
-								<p className="truncate text-sm font-semibold text-[#151515]">{user?.name}</p>
+								<div className="flex items-center gap-2">
+									<p className="truncate text-sm font-semibold text-[#151515]">{user?.name}</p>
+									{roleLabel && (
+										<span
+											className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${roleBadgeClass}`}
+										>
+											{roleLabel}
+										</span>
+									)}
+								</div>
 								<p className="truncate text-xs text-[#4a4a4a]">{user?.email}</p>
 							</div>
 							<button
