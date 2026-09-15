@@ -13,7 +13,7 @@ export default function SigninPage() {
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [adminToken, setAdminToken] = useState("");
+	const [inviteCode, setInviteCode] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,10 +28,12 @@ export default function SigninPage() {
 		setIsSubmitting(true);
 
 		try {
-			await register(fullName, email, password);
+			await register(fullName, email, password, inviteCode);
 			navigate("/home", { replace: true });
-		} catch {
-			setError("Registration failed. Please check your details and try again.");
+		} catch (err) {
+			const apiMessage =
+				(err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+			setError(apiMessage ?? "Registration failed. Please check your details and try again.");
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -109,16 +111,18 @@ export default function SigninPage() {
 							</div>
 
 							<div>
-								<label htmlFor="adminInviteToken" className="mb-2 block text-xl font-medium text-gray-700">
-									Admin Invite Token
+								<label htmlFor="teamInviteCode" className="mb-2 block text-xl font-medium text-gray-700">
+									Team Invite Code
 								</label>
 								<input
-									id="adminInviteToken"
+									id="teamInviteCode"
 									type="text"
-									placeholder="6 Digit Code"
-									value={adminToken}
-									onChange={(e) => setAdminToken(e.target.value)}
-									className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg text-[#1f1f1f] placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
+									placeholder="Ask your manager for a code"
+									value={inviteCode}
+									onChange={(e) => setInviteCode(e.target.value)}
+									autoComplete="off"
+									required
+									className="h-13 w-full rounded-lg border border-[#e8e8ec] bg-[#f5f5f7] px-4 text-lg uppercase text-[#1f1f1f] placeholder:normal-case placeholder:text-[#9b9ba1] focus:border-[#2767e7] focus:outline-none"
 								/>
 							</div>
 						{error ? <p className="text-sm text-red-600 md:col-span-2">{error}</p> : null}

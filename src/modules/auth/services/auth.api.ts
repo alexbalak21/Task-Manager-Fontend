@@ -4,8 +4,8 @@ export const AuthAPI = {
   login: (email: string, password: string) =>
     api.post("/api/auth/login", { email, password }),
 
-  register: (name: string, email: string, password: string) =>
-    api.post("/api/user/register", { name, email, password }),
+  register: (name: string, email: string, password: string, inviteCode: string) =>
+    api.post("/api/user/register", { name, email, password, invite_code: inviteCode }),
 
   refresh: (refreshToken: string) =>
     api.post("/api/auth/refresh", { refresh_token: refreshToken }),

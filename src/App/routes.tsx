@@ -8,6 +8,8 @@ import LoginPage from "../modules/auth/pages/LoginPage";
 import SigninPage from "../modules/auth/pages/SigninPage";
 import ManageTasksPage from "../modules/ManageTasks/pages/ManageTasksPage";
 import TeamMemebersPage from "../modules/Users/pages/TeamMembersPage";
+import TeamsListPage from "../modules/Teams/pages/TeamsListPage";
+import TeamDetailPage from "../modules/Teams/pages/TeamDetailPage";
 import EditUserPage from "../modules/Users/pages/EditUserPage";
 import { useAuthStore } from "../modules/auth/state/auth.store";
 
@@ -108,6 +110,22 @@ export function AppRoutes() {
             <AdminRoute>
               <TeamMemebersPage />  
             </AdminRoute>
+          }
+        />
+        <Route
+          path="/teams"
+          element={
+            <ProtectedRoute>
+              <TeamsListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/teams/:teamId"
+          element={
+            <ProtectedRoute>
+              <TeamDetailPage />
+            </ProtectedRoute>
           }
         />
         <Route path="/login" element={<LoginPage />} />

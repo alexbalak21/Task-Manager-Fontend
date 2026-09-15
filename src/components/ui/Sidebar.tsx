@@ -4,6 +4,7 @@ import {
 	LayoutDashboard,
 	SquarePlus,
 	Users,
+	UsersRound,
 } from "lucide-react";
 import { useAuthStore } from "../../modules/auth/state/auth.store";
 
@@ -21,6 +22,11 @@ export default function Sidebar() {
 			label: "Manage Tasks",
 			icon: ClipboardCheck,
 			to: "/tasks",
+		},
+		{
+			label: "Teams",
+			icon: UsersRound,
+			to: "/teams",
 		},
 		...(isAdmin
 			? [

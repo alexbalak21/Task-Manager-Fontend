@@ -45,7 +45,7 @@ interface AuthState {
   setUser: (user: AuthUser | null) => void;
 
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string, inviteCode: string) => Promise<void>;
   logout: () => void;
   refresh: () => Promise<void>;
   hydrate: () => Promise<void>;
@@ -72,8 +72,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     localStorage.setItem("refresh_token", res.data.refresh_token);
   },
 
-  register: async (name, email, password) => {
-    const res = await AuthAPI.register(name, email, password);
+  register: async (name, email, password, inviteCode) => {
+    const res = await AuthAPI.register(name, email, password, inviteCode);
     const user = extractUser(res.data);
 
     set({
